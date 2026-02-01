@@ -3,13 +3,18 @@ PDF 渲染器 - 将中间表示渲染为 PDF
 """
 
 from pathlib import Path
-from typing import Any, List, Union
-
-from weasyprint import HTML, CSS
-from weasyprint.text.fonts import FontConfiguration
+from typing import Any, List, Union, Optional
 
 from ..core.ir import DocumentIR, Node, NodeType
 from ..core.renderer import BaseRenderer, RenderError
+
+# 尝试导入 WeasyPrint，如果失败则标记为不可用
+try:
+    from weasyprint import HTML, CSS
+    from weasyprint.text.fonts import FontConfiguration
+    WEASYPRINT_AVAILABLE = True
+except ImportError:
+    WEASYPRINT_AVAILABLE = False
 
 
 class PDFRenderer(BaseRenderer):
@@ -50,6 +55,18 @@ class PDFRenderer(BaseRenderer):
         Returns:
             PDF 二进制数据
         """
+        if not WEASYPRINT_AVAILABLE:
+            # 如果 WeasyPrint 不可用，返回一个包含错误信息的简单 PDF
+            # 使用 reportlab 作为备选方案
+            try:
+                return self._render_with_reportlab(document, **options)
+            except ImportError:
+                raise RenderError(
+                    "PDF 渲染需要 WeasyPrint 或 ReportLab 库。\n"
+                    "在 Windows 上安装 WeasyPrint 需要先安装 GTK 库。\n"
+                    "请访问: https://doc.courtbouillon.org/weasyprint/stable/first_steps.html#windows"
+                )
+        
         try:
             # 首先渲染为 HTML
             from .html import HTMLRenderer
@@ -74,6 +91,144 @@ class PDFRenderer(BaseRenderer):
             
         except Exception as e:
             raise RenderError(f"PDF 渲染失败: {str(e)}")
+    
+    def _render_with_reportlab(self, document: DocumentIR, **options: Any) -> bytes:
+        """
+        使用 ReportLab 作为备选方案渲染 PDF
+        
+        当 WeasyPrint 不可用时使用。功能较简单，但无需 GTK 依赖。
+        """
+        try:
+            from reportlab.lib.pagesizes import A4
+            from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+            from reportlab.lib.units import inch
+            from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, PageBreak
+            from reportlab.pdfbase import pdfmetrics
+            from reportlab.pdfbase.ttfonts import TTFont
+            from io import BytesIO
+            
+            # 创建 PDF 缓冲区
+            buffer = BytesIO()
+            
+            # 创建文档
+            page_size = options.get('page_size', 'A4')
+            margin = options.get('margin', 2)
+            
+            doc = SimpleDocTemplate(
+                buffer,
+                pagesize=A4,
+                rightMargin=margin * inch,
+                leftMargin=margin * inch,
+                topMargin=margin * inch,
+                bottomMargin=margin * inch
+            )
+            
+            # 获取样式
+            styles = getSampleStyleSheet()
+            story = []
+            
+            # 添加标题
+            if document.title:
+                title_style = ParagraphStyle(
+                    'CustomTitle',
+                    parent=styles['Heading1'],
+                    fontSize=24,
+                    spaceAfter=30,
+                )
+                story.append(Paragraph(document.title, title_style))
+                story.append(Spacer(1, 0.2 * inch))
+            
+            # 添加作者信息
+            if document.author:
+                author_style = ParagraphStyle(
+                    'AuthorStyle',
+                    parent=styles['Normal'],
+                    fontSize=10,
+                    textColor='gray',
+                    spaceAfter=20,
+                )
+                story.append(Paragraph(f"Author: {document.author}", author_style))
+                story.append(Spacer(1, 0.2 * inch))
+            
+            # 渲染内容
+            for node in document.content:
+                self._render_node_to_reportlab(node, story, styles)
+            
+            # 构建 PDF
+            doc.build(story)
+            
+            # 获取 PDF 数据
+            pdf_data = buffer.getvalue()
+            buffer.close()
+            
+            return pdf_data
+            
+        except Exception as e:
+            raise RenderError(f"ReportLab PDF 渲染失败: {str(e)}")
+    
+    def _render_node_to_reportlab(self, node, story, styles):
+        """将节点渲染为 ReportLab 元素"""
+        from reportlab.platypus import Paragraph, Spacer, PageBreak
+        from reportlab.lib.styles import ParagraphStyle
+        from reportlab.lib.enums import TA_LEFT, TA_CENTER, TA_JUSTIFY
+        
+        if node.type.name == 'HEADING':
+            level = node.attributes.get('level', 1)
+            text = self._extract_text(node)
+            
+            style_name = f'Heading{min(level, 3)}'
+            if style_name in styles:
+                style = styles[style_name]
+            else:
+                style = styles['Heading1']
+            
+            story.append(Paragraph(text, style))
+            story.append(Spacer(1, 0.1 * inch))
+            
+        elif node.type.name == 'PARAGRAPH':
+            text = self._extract_text(node)
+            if text.strip():
+                story.append(Paragraph(text, styles['Normal']))
+                story.append(Spacer(1, 0.1 * inch))
+                
+        elif node.type.name == 'CODE_BLOCK':
+            code = node.content if isinstance(node.content, str) else ''
+            # 使用等宽字体样式
+            code_style = ParagraphStyle(
+                'CodeStyle',
+                parent=styles['Code'],
+                fontName='Courier',
+                fontSize=9,
+                leftIndent=20,
+            )
+            # 转义 HTML 特殊字符
+            code_escaped = code.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
+            for line in code_escaped.split('\n'):
+                story.append(Paragraph(line, code_style))
+            story.append(Spacer(1, 0.1 * inch))
+            
+        elif node.type.name == 'HORIZONTAL_RULE':
+            story.append(Spacer(1, 0.2 * inch))
+            
+        elif node.type.name == 'PAGE_BREAK':
+            story.append(PageBreak())
+    
+    def _extract_text(self, node) -> str:
+        """从节点中提取纯文本"""
+        if isinstance(node.content, str):
+            return node.content
+        
+        if not isinstance(node.content, list):
+            return ""
+        
+        parts = []
+        for child in node.content:
+            if hasattr(child, 'type'):
+                parts.append(self._extract_text(child))
+            else:
+                parts.append(str(child))
+        
+        return ''.join(parts)
     
     def _get_pdf_css(self, options: dict) -> str:
         """获取 PDF 专用 CSS"""
