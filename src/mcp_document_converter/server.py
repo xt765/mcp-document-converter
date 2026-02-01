@@ -9,8 +9,6 @@ from typing import Any, Dict, List, Optional
 from mcp.server import Server
 from mcp.server.stdio import stdio_server
 from mcp.types import (
-    CallToolRequestParams,
-    ListToolsRequestParams,
     TextContent,
     Tool,
 )
@@ -60,7 +58,7 @@ def create_server() -> Server:
     server = Server("mcp-document-converter")
     
     @server.list_tools()
-    async def list_tools(arguments: ListToolsRequestParams) -> List[Tool]:
+    async def list_tools() -> List[Tool]:
         """列出所有可用的工具"""
         return [
             Tool(
