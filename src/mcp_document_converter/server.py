@@ -370,7 +370,10 @@ async def main():
     """主入口函数"""
     server = create_server()
     
-    async with stdio_server(server) as (read_stream, write_stream):
+    # 使用新的 MCP API
+    from mcp.server.stdio import stdio_server as mcp_stdio_server
+    
+    async with mcp_stdio_server() as (read_stream, write_stream):
         await server.run(
             read_stream,
             write_stream,
