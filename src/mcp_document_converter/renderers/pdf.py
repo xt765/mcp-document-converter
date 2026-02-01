@@ -171,6 +171,7 @@ class PDFRenderer(BaseRenderer):
         from reportlab.platypus import Paragraph, Spacer, PageBreak
         from reportlab.lib.styles import ParagraphStyle
         from reportlab.lib.enums import TA_LEFT, TA_CENTER, TA_JUSTIFY
+        from reportlab.lib.units import inch
         
         if node.type.name == 'HEADING':
             level = node.attributes.get('level', 1)
