@@ -284,18 +284,20 @@ class PDFRenderer(BaseRenderer):
                 
         elif node.type.name == 'CODE_BLOCK':
             code = node.content if isinstance(node.content, str) else ''
-            # 使用等宽字体样式，但确保中文也能显示
+            # 使用 Preformatted 保持原始格式，包括换行和空格
+            from reportlab.platypus import Preformatted
             code_style = ParagraphStyle(
                 'CodeStyle',
                 parent=styles['Code'],
                 fontName='Courier',
                 fontSize=9,
                 leftIndent=20,
+                spaceBefore=10,
+                spaceAfter=10,
             )
-            # 转义 HTML 特殊字符
+            # 转义 XML 特殊字符
             code_escaped = code.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
-            for line in code_escaped.split('\n'):
-                story.append(Paragraph(line, code_style))
+            story.append(Preformatted(code_escaped, code_style))
             story.append(Spacer(1, 0.1 * inch))
             
         elif node.type.name == 'HORIZONTAL_RULE':
