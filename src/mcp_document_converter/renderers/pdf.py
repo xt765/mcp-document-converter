@@ -150,6 +150,9 @@ class PDFRenderer(BaseRenderer):
                 story.append(Paragraph(f"Author: {document.author}", author_style))
                 story.append(Spacer(1, 0.2 * inch))
             
+            # 确保 inch 已导入
+            from reportlab.lib.units import inch
+            
             # 渲染内容
             for node in document.content:
                 self._render_node_to_reportlab(node, story, styles)
