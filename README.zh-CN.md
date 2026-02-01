@@ -72,18 +72,7 @@ pip install -e .
 
 将以下内容添加到 Trae IDE 的 MCP 配置中：
 
-```json
-{
-  "mcpServers": {
-    "mcp-document-converter": {
-      "command": "python",
-      "args": ["-m", "mcp_document_converter.server"]
-    }
-  }
-}
-```
-
-如果使用 `uvx`：
+**选项 1：使用 GitHub 仓库（推荐）**
 
 ```json
 {
@@ -93,6 +82,23 @@ pip install -e .
       "args": [
         "--from",
         "git+https://github.com/xt765/mcp-document-converter",
+        "mcp-document-converter"
+      ]
+    }
+  }
+}
+```
+
+**选项 2：使用 Gitee 仓库（国内访问更快）**
+
+```json
+{
+  "mcpServers": {
+    "mcp-document-converter": {
+      "command": "uvx",
+      "args": [
+        "--from",
+        "git+https://gitee.com/xt765/mcp-document-converter",
         "mcp-document-converter"
       ]
     }
