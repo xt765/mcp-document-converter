@@ -59,7 +59,7 @@ MCP (Model Context Protocol) Document Converter - A powerful MCP tool for conver
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/mcp-document-converter.git
+git clone https://github.com/xt765/mcp-document-converter.git
 cd mcp-document-converter
 
 # Install dependencies
@@ -92,7 +92,7 @@ If using `uvx`:
       "command": "uvx",
       "args": [
         "--from",
-        "git+https://github.com/yourusername/mcp-document-converter",
+        "git+https://github.com/xt765/mcp-document-converter",
         "mcp-document-converter"
       ]
     }

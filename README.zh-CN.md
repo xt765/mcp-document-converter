@@ -59,7 +59,7 @@ MCP（模型上下文协议）文档转换器 - 支持多格式文档转换的 M
 
 ```bash
 # 克隆仓库
-git clone https://github.com/yourusername/mcp-document-converter.git
+git clone https://github.com/xt765/mcp-document-converter.git
 cd mcp-document-converter
 
 # 安装依赖
@@ -92,7 +92,7 @@ pip install -e .
       "command": "uvx",
       "args": [
         "--from",
-        "git+https://github.com/yourusername/mcp-document-converter",
+        "git+https://github.com/xt765/mcp-document-converter",
         "mcp-document-converter"
       ]
     }
