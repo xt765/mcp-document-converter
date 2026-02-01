@@ -529,3 +529,5 @@ img {
         font-size: 13px;
     }
 }'''
+        
+        return pygments_css
