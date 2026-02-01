@@ -105,7 +105,9 @@ class PDFRenderer(BaseRenderer):
             from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, PageBreak
             from reportlab.pdfbase import pdfmetrics
             from reportlab.pdfbase.ttfonts import TTFont
+            from reportlab.lib.enums import TA_LEFT
             from io import BytesIO
+            import os
             
             # 创建 PDF 缓冲区
             buffer = BytesIO()
@@ -123,15 +125,68 @@ class PDFRenderer(BaseRenderer):
                 bottomMargin=margin * inch
             )
             
+            # 注册中文字体
+            chinese_font_name = self._register_chinese_font()
+            
             # 获取样式
             styles = getSampleStyleSheet()
+            
+            # 创建支持中文的样式
+            chinese_style = ParagraphStyle(
+                'ChineseNormal',
+                parent=styles['Normal'],
+                fontName=chinese_font_name,
+                fontSize=12,
+                leading=20,
+                alignment=TA_LEFT,
+            )
+            
+            chinese_heading1 = ParagraphStyle(
+                'ChineseHeading1',
+                parent=styles['Heading1'],
+                fontName=chinese_font_name,
+                fontSize=24,
+                spaceAfter=30,
+            )
+            
+            chinese_heading2 = ParagraphStyle(
+                'ChineseHeading2',
+                parent=styles['Heading2'],
+                fontName=chinese_font_name,
+                fontSize=18,
+                spaceAfter=20,
+            )
+            
+            chinese_heading3 = ParagraphStyle(
+                'ChineseHeading3',
+                parent=styles['Heading3'],
+                fontName=chinese_font_name,
+                fontSize=14,
+                spaceAfter=15,
+            )
+            
+            chinese_code = ParagraphStyle(
+                'ChineseCode',
+                parent=styles['Code'],
+                fontName='Courier',
+                fontSize=9,
+                leftIndent=20,
+            )
+            
+            # 更新样式表
+            styles.add(chinese_style)
+            styles.add(chinese_heading1)
+            styles.add(chinese_heading2)
+            styles.add(chinese_heading3)
+            styles.add(chinese_code)
+            
             story = []
             
             # 添加标题
             if document.title:
                 title_style = ParagraphStyle(
                     'CustomTitle',
-                    parent=styles['Heading1'],
+                    parent=chinese_heading1,
                     fontSize=24,
                     spaceAfter=30,
                 )
@@ -142,7 +197,7 @@ class PDFRenderer(BaseRenderer):
             if document.author:
                 author_style = ParagraphStyle(
                     'AuthorStyle',
-                    parent=styles['Normal'],
+                    parent=chinese_style,
                     fontSize=10,
                     textColor='gray',
                     spaceAfter=20,
@@ -150,12 +205,9 @@ class PDFRenderer(BaseRenderer):
                 story.append(Paragraph(f"Author: {document.author}", author_style))
                 story.append(Spacer(1, 0.2 * inch))
             
-            # 确保 inch 已导入
-            from reportlab.lib.units import inch
-            
             # 渲染内容
             for node in document.content:
-                self._render_node_to_reportlab(node, story, styles)
+                self._render_node_to_reportlab(node, story, styles, chinese_font_name)
             
             # 构建 PDF
             doc.build(story)
@@ -169,7 +221,40 @@ class PDFRenderer(BaseRenderer):
         except Exception as e:
             raise RenderError(f"ReportLab PDF 渲染失败: {str(e)}")
     
-    def _render_node_to_reportlab(self, node, story, styles):
+    def _register_chinese_font(self):
+        """注册中文字体，返回字体名称"""
+        from reportlab.pdfbase import pdfmetrics
+        from reportlab.pdfbase.ttfonts import TTFont
+        import os
+        
+        # 尝试常见的中文字体路径
+        font_paths = [
+            # Windows 系统字体
+            "C:/Windows/Fonts/simhei.ttf",  # 黑体
+            "C:/Windows/Fonts/simsun.ttc",  # 宋体
+            "C:/Windows/Fonts/msyh.ttc",    # 微软雅黑
+            "C:/Windows/Fonts/msyhbd.ttc",  # 微软雅黑粗体
+            # Linux 系统字体
+            "/usr/share/fonts/truetype/wqy/wqy-zenhei.ttc",
+            "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",
+            # macOS 系统字体
+            "/System/Library/Fonts/PingFang.ttc",
+            "/Library/Fonts/Arial Unicode.ttf",
+        ]
+        
+        for font_path in font_paths:
+            if os.path.exists(font_path):
+                try:
+                    font_name = os.path.basename(font_path).split('.')[0]
+                    pdfmetrics.registerFont(TTFont(font_name, font_path))
+                    return font_name
+                except:
+                    continue
+        
+        # 如果没有找到中文字体，使用默认的 Helvetica（中文会显示为黑块）
+        return 'Helvetica'
+    
+    def _render_node_to_reportlab(self, node, story, styles, chinese_font_name='Helvetica'):
         """将节点渲染为 ReportLab 元素"""
         from reportlab.platypus import Paragraph, Spacer, PageBreak
         from reportlab.lib.styles import ParagraphStyle
@@ -180,11 +265,12 @@ class PDFRenderer(BaseRenderer):
             level = node.attributes.get('level', 1)
             text = self._extract_text(node)
             
-            style_name = f'Heading{min(level, 3)}'
+            # 使用支持中文的标题样式
+            style_name = f'ChineseHeading{min(level, 3)}'
             if style_name in styles:
                 style = styles[style_name]
             else:
-                style = styles['Heading1']
+                style = styles['ChineseHeading1']
             
             story.append(Paragraph(text, style))
             story.append(Spacer(1, 0.1 * inch))
@@ -192,12 +278,13 @@ class PDFRenderer(BaseRenderer):
         elif node.type.name == 'PARAGRAPH':
             text = self._extract_text(node)
             if text.strip():
-                story.append(Paragraph(text, styles['Normal']))
+                # 使用支持中文的正文样式
+                story.append(Paragraph(text, styles.get('ChineseNormal', styles['Normal'])))
                 story.append(Spacer(1, 0.1 * inch))
                 
         elif node.type.name == 'CODE_BLOCK':
             code = node.content if isinstance(node.content, str) else ''
-            # 使用等宽字体样式
+            # 使用等宽字体样式，但确保中文也能显示
             code_style = ParagraphStyle(
                 'CodeStyle',
                 parent=styles['Code'],
