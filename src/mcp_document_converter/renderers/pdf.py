@@ -284,12 +284,12 @@ class PDFRenderer(BaseRenderer):
                 
         elif node.type.name == 'CODE_BLOCK':
             code = node.content if isinstance(node.content, str) else ''
-            # 使用 Preformatted 保持原始格式，包括换行和空格
+            # 使用支持中文的等宽字体样式
             from reportlab.platypus import Preformatted
             code_style = ParagraphStyle(
                 'CodeStyle',
                 parent=styles['Code'],
-                fontName='Courier',
+                fontName=chinese_font_name,  # 使用支持中文的字体
                 fontSize=9,
                 leftIndent=20,
                 spaceBefore=10,
