@@ -59,7 +59,7 @@ dev = [
 ]
 
 [project.scripts]
-mcp-document-converter = "mcp_document_converter.server:main"
+mcp-document-converter = "mcp_document_converter.server:main_sync"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/mcp_document_converter"]
