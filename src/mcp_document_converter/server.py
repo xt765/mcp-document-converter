@@ -1,5 +1,5 @@
 """
-MCP 服务器 - 提供文档转换的 MCP 工具接口
+MCP Server - Provides MCP tool interface for document conversion
 """
 
 import json
@@ -32,79 +32,79 @@ from .renderers import (
 
 
 def create_server() -> Server:
-    """创建并配置 MCP 服务器"""
+    """Create and configure MCP server"""
     
-    # 注册所有解析器和渲染器
+    # Register all parsers and renderers
     registry = get_registry()
     
-    # 注册解析器
+    # Register parsers
     registry.register_parser(MarkdownParser())
     registry.register_parser(HTMLParser())
     registry.register_parser(DOCXParser())
     registry.register_parser(PDFParser())
     registry.register_parser(TextParser())
     
-    # 注册渲染器
+    # Register renderers
     registry.register_renderer(HTMLRenderer())
     registry.register_renderer(MarkdownRenderer())
     registry.register_renderer(DOCXRenderer())
     registry.register_renderer(PDFRenderer())
     registry.register_renderer(TextRenderer())
     
-    # 创建转换器
+    # Create converter
     converter = DocumentConverter(registry)
     
-    # 创建 MCP 服务器
+    # Create MCP server
     server = Server("mcp-document-converter")
     
     @server.list_tools()
     async def list_tools() -> List[Tool]:
-        """列出所有可用的工具"""
+        """List all available tools"""
         return [
             Tool(
                 name="convert_document",
-                description="将文档从一种格式转换为另一种格式。支持 Markdown、HTML、DOCX、PDF、Text 等格式之间的相互转换。",
+                description="Convert a document from one format to another. Supports conversion between Markdown, HTML, DOCX, PDF, and Text formats.",
                 inputSchema={
                     "type": "object",
                     "properties": {
                         "source_path": {
                             "type": "string",
-                            "description": "源文件路径，支持绝对路径或相对路径"
+                            "description": "Source file path, supports absolute or relative paths"
                         },
                         "target_format": {
                             "type": "string",
-                            "description": "目标格式",
+                            "description": "Target format",
                             "enum": ["html", "pdf", "markdown", "docx", "text"]
                         },
                         "output_path": {
                             "type": "string",
-                            "description": "输出文件路径（可选，默认使用源文件名）"
+                            "description": "Output file path (optional, defaults to source filename)"
                         },
                         "source_format": {
                             "type": "string",
-                            "description": "源格式（可选，自动检测文件扩展名）",
+                            "description": "Source format (optional, auto-detected from file extension)",
                             "enum": ["markdown", "html", "docx", "pdf", "text"]
                         },
                         "options": {
                             "type": "object",
-                            "description": "转换选项",
+                            "description": "Conversion options",
                             "properties": {
                                 "template": {
                                     "type": "string",
-                                    "description": "模板名称"
+                                    "description": "Template name"
                                 },
                                 "css": {
                                     "type": "string",
-                                    "description": "自定义 CSS 样式"
+                                    "description": "Custom CSS styles"
                                 },
                                 "preserve_metadata": {
                                     "type": "boolean",
-                                    "description": "是否保留元数据",
+                                    "description": "Whether to preserve metadata",
                                     "default": True
                                 },
                                 "extract_images": {
                                     "type": "boolean",
-                                    "description": "是否提取图片",
+                                    "description": "Whether to extract images",
                                     "default": True
                                 }
                             }
@@ -115,15 +115,7 @@ def create_server() -> Server:
             ),
             Tool(
                 name="list_supported_formats",
-                description="列出所有支持的文档格式及其转换能力",
-                inputSchema={
-                    "type": "object",
-                    "properties": {}
-                }
-            ),
-            Tool(
-                name="get_conversion_matrix",
-                description="获取完整的格式转换矩阵，显示哪些格式可以转换为哪些格式",
+                description="List all supported document formats and their conversion capabilities",
                 inputSchema={
                     "type": "object",
                     "properties": {}
@@ -131,44 +123,29 @@ def create_server() -> Server:
             ),
             Tool(
                 name="can_convert",
-                description="检查是否支持从源格式转换到目标格式",
+                description="Check if conversion from source format to target format is supported",
                 inputSchema={
                     "type": "object",
                     "properties": {
                         "source_format": {
                             "type": "string",
-                            "description": "源格式",
+                            "description": "Source format",
                             "enum": ["markdown", "html", "docx", "pdf", "text"]
                         },
                         "target_format": {
                             "type": "string",
-                            "description": "目标格式",
+                            "description": "Target format",
                             "enum": ["html", "pdf", "markdown", "docx", "text"]
                         }
                     },
                     "required": ["source_format", "target_format"]
                 }
             ),
-            Tool(
-                name="get_format_info",
-                description="获取特定格式的详细信息",
-                inputSchema={
-                    "type": "object",
-                    "properties": {
-                        "format": {
-                            "type": "string",
-                            "description": "格式名称",
-                            "enum": ["markdown", "html", "docx", "pdf", "text"]
-                        }
-                    },
-                    "required": ["format"]
-                }
-            ),
         ]
     
     @server.call_tool()
     async def call_tool(name: str, arguments: Dict[str, Any]) -> List[TextContent]:
-        """调用工具"""
+        """Call tool"""
         
         if name == "convert_document":
             return await _handle_convert_document(converter, arguments)
@@ -176,20 +153,14 @@ def create_server() -> Server:
         elif name == "list_supported_formats":
             return await _handle_list_supported_formats(registry)
         
-        elif name == "get_conversion_matrix":
-            return await _handle_get_conversion_matrix(converter)
-        
         elif name == "can_convert":
             return await _handle_can_convert(converter, arguments)
-        
-        elif name == "get_format_info":
-            return await _handle_get_format_info(registry, arguments)
         
         else:
             return [TextContent(
                 type="text",
                 text=json.dumps({
-                    "error": f"未知工具: {name}"
+                    "error": f"Unknown tool: {name}"
                 }, ensure_ascii=False, indent=2)
             )]
     
@@ -197,7 +168,7 @@ def create_server() -> Server:
 
 
 async def _handle_convert_document(converter: DocumentConverter, arguments: Dict[str, Any]) -> List[TextContent]:
-    """处理文档转换请求"""
+    """Handle document conversion request"""
     source_path = arguments.get("source_path")
     target_format = arguments.get("target_format")
     output_path = arguments.get("output_path")
@@ -209,11 +180,11 @@ async def _handle_convert_document(converter: DocumentConverter, arguments: Dict
             type="text",
             text=json.dumps({
                 "success": False,
-                "error": "缺少必需参数: source_path 和 target_format"
+                "error": "Missing required parameters: source_path and target_format"
             }, ensure_ascii=False, indent=2)
         )]
     
-    # 执行转换
+    # Execute conversion
     result = converter.convert(
         source=source_path,
         target_format=target_format,
@@ -225,7 +196,7 @@ async def _handle_convert_document(converter: DocumentConverter, arguments: Dict
     if result.success:
         response = {
             "success": True,
-            "message": f"✅ 转换成功！",
+            "message": f"Conversion successful!",
             "source_path": source_path,
             "output_path": str(result.output_path) if result.output_path else None,
             "target_format": target_format,
@@ -246,10 +217,10 @@ async def _handle_convert_document(converter: DocumentConverter, arguments: Dict
 
 
 async def _handle_list_supported_formats(registry) -> List[TextContent]:
-    """处理列出支持格式请求"""
+    """Handle list supported formats request"""
     formats = registry.list_supported_formats()
     
-    # 获取解析器和渲染器的详细信息
+    # Get detailed information of parsers and renderers
     parsers_info = []
     for parser in registry.list_parsers():
         parsers_info.append({
@@ -266,9 +237,15 @@ async def _handle_list_supported_formats(registry) -> List[TextContent]:
             "mime_type": renderer.mime_type
         })
     
+    # Get conversion matrix
+    from .core.engine import DocumentConverter
+    temp_converter = DocumentConverter(registry)
+    matrix = temp_converter.list_supported_conversions()
+    
     response = {
         "parsers": parsers_info,
         "renderers": renderers_info,
+        "conversion_matrix": matrix,
         "summary": {
             "total_source_formats": len(parsers_info),
             "total_target_formats": len(renderers_info),
@@ -282,24 +259,8 @@ async def _handle_list_supported_formats(registry) -> List[TextContent]:
     )]
 
 
-async def _handle_get_conversion_matrix(converter: DocumentConverter) -> List[TextContent]:
-    """处理获取转换矩阵请求"""
-    matrix = converter.list_supported_conversions()
-    
-    # 格式化矩阵为表格
-    response = {
-        "conversion_matrix": matrix,
-        "description": "显示每种源格式可以转换到哪些目标格式"
-    }
-    
-    return [TextContent(
-        type="text",
-        text=json.dumps(response, ensure_ascii=False, indent=2)
-    )]
-
-
 async def _handle_can_convert(converter: DocumentConverter, arguments: Dict[str, Any]) -> List[TextContent]:
-    """处理检查转换可行性请求"""
+    """Handle check conversion feasibility request"""
     source_format = arguments.get("source_format")
     target_format = arguments.get("target_format")
     
@@ -307,7 +268,7 @@ async def _handle_can_convert(converter: DocumentConverter, arguments: Dict[str,
         return [TextContent(
             type="text",
             text=json.dumps({
-                "error": "缺少必需参数: source_format 和 target_format"
+                "error": "Missing required parameters: source_format and target_format"
             }, ensure_ascii=False, indent=2)
         )]
     
@@ -317,48 +278,8 @@ async def _handle_can_convert(converter: DocumentConverter, arguments: Dict[str,
         "source_format": source_format,
         "target_format": target_format,
         "can_convert": can_convert,
-        "message": f"{'✅ 支持' if can_convert else '❌ 不支持'}从 {source_format} 转换到 {target_format}"
+        "message": f"{'Supported' if can_convert else 'Not supported'}: {source_format} to {target_format}"
     }
-    
-    return [TextContent(
-        type="text",
-        text=json.dumps(response, ensure_ascii=False, indent=2)
-    )]
-
-
-async def _handle_get_format_info(registry, arguments: Dict[str, Any]) -> List[TextContent]:
-    """处理获取格式信息请求"""
-    format_name = arguments.get("format")
-    
-    if not format_name:
-        return [TextContent(
-            type="text",
-            text=json.dumps({
-                "error": "缺少必需参数: format"
-            }, ensure_ascii=False, indent=2)
-        )]
-    
-    parser = registry.get_parser(format_name)
-    renderer = registry.find_renderer(format_name)
-    
-    response = {
-        "format": format_name,
-        "can_parse": parser is not None,
-        "can_render": renderer is not None,
-    }
-    
-    if parser:
-        response["parser_info"] = {
-            "extensions": parser.supported_extensions,
-            "mime_types": parser.mime_types
-        }
-    
-    if renderer:
-        response["renderer_info"] = {
-            "extension": renderer.output_extension,
-            "mime_type": renderer.mime_type,
-            "is_binary": renderer.is_binary
-        }
     
     return [TextContent(
         type="text",
@@ -367,10 +288,10 @@ async def _handle_get_format_info(registry, arguments: Dict[str, Any]) -> List[T
 
 
 async def main():
-    """主入口函数"""
+    """Main entry function"""
     server = create_server()
     
-    # 使用新的 MCP API
+    # Use new MCP API
     from mcp.server.stdio import stdio_server as mcp_stdio_server
     
     async with mcp_stdio_server() as (read_stream, write_stream):
@@ -382,7 +303,7 @@ async def main():
 
 
 def main_sync():
-    """同步入口函数"""
+    """Synchronous entry function"""
     import asyncio
     asyncio.run(main())
 
