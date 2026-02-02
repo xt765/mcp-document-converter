@@ -57,7 +57,6 @@ Thumbs.db
 *.bak
 *.orig
 
-# Output files (optional, uncomment if needed)
-# *.html
-# *.pdf
-# *.docx
+# MCP Registry
+.mcpregistry_*
+mcp-publisher.exe

@@ -1,5 +1,7 @@
 # MCP Document Converter
 
+mcp-name: io.github.xt765/mcp-document-converter
+
 MCP（模型上下文协议）文档转换器 - 支持多格式文档转换的 MCP 工具，让 AI 智能体能够轻松转换各种文档格式。
 
 [![GitHub](https://img.shields.io/badge/GitHub-mcp--document--converter-black?logo=github)](https://github.com/xt765/mcp-document-converter)
