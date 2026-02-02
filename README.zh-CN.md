@@ -53,21 +53,33 @@ MCP（模型上下文协议）文档转换器 - 支持多格式文档转换的 M
 
 ## 安装
 
-### 前提条件
-
-- Python 3.10 或更高版本
-- 支持 MCP 的 AI 工具，如 Trae IDE、Claude Desktop 等
-
-### 安装步骤
+### 使用 pip (推荐)
 
 ```bash
-# 克隆仓库
+pip install mcp-document-converter
+```
+
+### 从源码安装
+
+```bash
 git clone https://github.com/xt765/mcp-document-converter.git
 cd mcp-document-converter
-
-# 安装依赖
 pip install -e .
 ```
+
+## MCP 工具
+
+本服务器提供以下工具：
+
+### `convert_document`
+将文档从一种格式转换为另一种格式。
+
+**参数：**
+- `source_path` (string, 必填): 源文档路径。
+- `target_format` (string, 必填): 目标格式 (`html`, `pdf`, `markdown`, `docx`, `text`)。
+- `output_path` (string, 可选): 输出文件路径。
+- `source_format` (string, 可选): 源文件格式（如不提供将根据扩展名自动检测）。
+- `options` (object, 可选): 额外选项，如 `template`, `css`, 和 `preserve_metadata`。
 
 ## 配置
 

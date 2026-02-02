@@ -1,0 +1,30 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-07-09/server.schema.json",
+  "name": "mcp-document-converter",
+  "description": "A powerful Model Context Protocol (MCP) server for converting documents between various formats including PDF, DOCX, HTML, Markdown, and Plain Text. Optimized for AI assistant context injection.",
+  "version": "0.1.1",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "MCP Document Converter Team"
+    }
+  ],
+  "keywords": [
+    "mcp",
+    "document-converter",
+    "pdf-to-markdown",
+    "docx-to-markdown",
+    "ai-tools"
+  ],
+  "packages": [
+    {
+      "registry_type": "pypi",
+      "identifier": "mcp-document-converter",
+      "version": "0.1.1"
+    }
+  ],
+  "source": {
+    "type": "github",
+    "repository": "https://github.com/xt765/mcp-document-converter"
+  }
+}

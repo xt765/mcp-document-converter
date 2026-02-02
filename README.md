@@ -53,21 +53,33 @@ MCP (Model Context Protocol) Document Converter - A powerful MCP tool for conver
 
 ## Installation
 
-### Prerequisites
-
-- Python 3.10 or higher
-- MCP-enabled AI tool such as Trae IDE, Claude Desktop, etc.
-
-### Installation Steps
+### Using pip (Recommended)
 
 ```bash
-# Clone the repository
+pip install mcp-document-converter
+```
+
+### From Source
+
+```bash
 git clone https://github.com/xt765/mcp-document-converter.git
 cd mcp-document-converter
-
-# Install dependencies
 pip install -e .
 ```
+
+## MCP Tools
+
+This server provides the following tools:
+
+### `convert_document`
+Convert a document from one format to another.
+
+**Arguments:**
+- `source_path` (string, required): Path to the source document.
+- `target_format` (string, required): Target format (`html`, `pdf`, `markdown`, `docx`, `text`).
+- `output_path` (string, optional): Path for the output file.
+- `source_format` (string, optional): Format of the source file (auto-detected if not provided).
+- `options` (object, optional): Additional options like `template`, `css`, and `preserve_metadata`.
 
 ## Configuration
 
