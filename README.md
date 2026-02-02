@@ -90,7 +90,41 @@ Convert a document from one format to another.
 
 Add the following to your MCP configuration file:
 
-**Option 1: Using PyPI (Recommended)**
+**Option 1: Using GitHub repository (Recommended)**
+
+```json
+{
+  "mcpServers": {
+    "mcp-document-converter": {
+      "command": "uvx",
+      "args": [
+        "--from",
+        "git+https://github.com/xt765/mcp-document-converter",
+        "mcp-document-converter"
+      ]
+    }
+  }
+}
+```
+
+**Option 2: Using Gitee repository (Faster access in China)**
+
+```json
+{
+  "mcpServers": {
+    "mcp-document-converter": {
+      "command": "uvx",
+      "args": [
+        "--from",
+        "git+https://gitee.com/xt765/mcp-document-converter",
+        "mcp-document-converter"
+      ]
+    }
+  }
+}
+```
+
+**Option 3: Using PyPI**
 
 ```json
 {
@@ -105,7 +139,7 @@ Add the following to your MCP configuration file:
 }
 ```
 
-**Option 2: Using pip (Manual installation)**
+**Option 4: Using pip (Manual installation)**
 
 First install the package:
 ```bash
