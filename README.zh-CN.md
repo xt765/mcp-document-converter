@@ -5,6 +5,8 @@ mcp-name: io.github.xt765/mcp-document-converter
 MCP（模型上下文协议）文档转换器 - 支持多格式文档转换的 MCP 工具，让 AI 智能体能够轻松转换各种文档格式。
 
 [![GitHub](https://img.shields.io/badge/GitHub-mcp--document--converter-black?logo=github)](https://github.com/xt765/mcp-document-converter)
+[![Gitee](https://img.shields.io/badge/Gitee-mcp--document--converter-red?logo=gitee)](https://gitee.com/xt765/mcp-document-converter)
+[![CSDN](https://img.shields.io/badge/CSDN-玄同765-orange?logo=csdn)](https://blog.csdn.net/Yunyi_Chi)
 [![PyPI](https://img.shields.io/pypi/v/mcp-document-converter?logo=pypi)](https://pypi.org/project/mcp-document-converter/)
 [![MCP Registry](https://img.shields.io/badge/MCP-Registry-blue?logo=modelcontextprotocol)](https://github.com/modelcontextprotocol/registry)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue?logo=python)](https://www.python.org/downloads/)
@@ -84,11 +86,11 @@ pip install -e .
 
 ## 配置
 
-### 在 Trae IDE 中使用
+### 在 Trae IDE / Claude Desktop 中使用
 
-将以下内容添加到 Trae IDE 的 MCP 配置中：
+将以下内容添加到您的 MCP 配置文件中：
 
-**选项 1：使用 GitHub 仓库（推荐）**
+**选项 1：使用 PyPI (推荐)**
 
 ```json
 {
@@ -96,8 +98,6 @@ pip install -e .
     "mcp-document-converter": {
       "command": "uvx",
       "args": [
-        "--from",
-        "git+https://github.com/xt765/mcp-document-converter",
         "mcp-document-converter"
       ]
     }
@@ -105,18 +105,20 @@ pip install -e .
 }
 ```
 
-**选项 2：使用 Gitee 仓库（国内访问更快）**
+**选项 2：使用 pip (手动安装)**
 
+首先安装包：
+```bash
+pip install mcp-document-converter
+```
+
+然后添加到配置：
 ```json
 {
   "mcpServers": {
     "mcp-document-converter": {
-      "command": "uvx",
-      "args": [
-        "--from",
-        "git+https://gitee.com/xt765/mcp-document-converter",
-        "mcp-document-converter"
-      ]
+      "command": "mcp-document-converter",
+      "args": []
     }
   }
 }

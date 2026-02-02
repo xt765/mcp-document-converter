@@ -5,6 +5,8 @@ mcp-name: io.github.xt765/mcp-document-converter
 MCP (Model Context Protocol) Document Converter - A powerful MCP tool for converting documents between multiple formats, enabling AI agents to easily transform documents.
 
 [![GitHub](https://img.shields.io/badge/GitHub-mcp--document--converter-black?logo=github)](https://github.com/xt765/mcp-document-converter)
+[![Gitee](https://img.shields.io/badge/Gitee-mcp--document--converter-red?logo=gitee)](https://gitee.com/xt765/mcp-document-converter)
+[![CSDN](https://img.shields.io/badge/CSDN-玄同765-orange?logo=csdn)](https://blog.csdn.net/Yunyi_Chi)
 [![PyPI](https://img.shields.io/pypi/v/mcp-document-converter?logo=pypi)](https://pypi.org/project/mcp-document-converter/)
 [![MCP Registry](https://img.shields.io/badge/MCP-Registry-blue?logo=modelcontextprotocol)](https://github.com/modelcontextprotocol/registry)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue?logo=python)](https://www.python.org/downloads/)
