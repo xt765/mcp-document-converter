@@ -105,7 +105,41 @@ pip install -e .
 }
 ```
 
-**选项 2：使用 pip (手动安装)**
+**选项 2：使用 GitHub 仓库**
+
+```json
+{
+  "mcpServers": {
+    "mcp-document-converter": {
+      "command": "uvx",
+      "args": [
+        "--from",
+        "git+https://github.com/xt765/mcp-document-converter",
+        "mcp-document-converter"
+      ]
+    }
+  }
+}
+```
+
+**选项 3：使用 Gitee 仓库（国内访问更快）**
+
+```json
+{
+  "mcpServers": {
+    "mcp-document-converter": {
+      "command": "uvx",
+      "args": [
+        "--from",
+        "git+https://gitee.com/xt765/mcp-document-converter",
+        "mcp-document-converter"
+      ]
+    }
+  }
+}
+```
+
+**选项 4：使用 pip（手动安装）**
 
 首先安装包：
 ```bash
