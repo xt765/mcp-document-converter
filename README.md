@@ -158,6 +158,18 @@ Then add to configuration:
 }
 ```
 
+### Using in Cherry Studio
+
+*Cherry Studio is a powerful open-source desktop AI client assistant that supports integrating various tools through the MCP protocol*
+
+**Configuration Example:**
+
+![1770102311686](Img/1770102311686.png)
+
+**Usage Example:**
+
+![1770102446855](Img/1770102446855.png)
+
 ## Usage
 
 ### As an MCP Tool
