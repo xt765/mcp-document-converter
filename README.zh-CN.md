@@ -14,7 +14,7 @@ MCP（模型上下文协议）文档转换器 - 支持多格式文档转换的 M
 [![PyPI Downloads](https://img.shields.io/pepy/dt/mcp-document-converter.svg?logo=pypi&label=PyPI%20Downloads)](https://pepy.tech/project/mcp-document-converter)
 [![MCP Registry](https://img.shields.io/badge/MCP-Registry-blue?logo=modelcontextprotocol)](https://registry.modelcontextprotocol.io/v0.1/servers?search=io.github.xt765/mcp-document-converter)
 
-## Features (功能特性)
+## 功能特性
 
 - **多格式支持**：支持 Markdown、HTML、DOCX、PDF、Text 等 5 种主流文档格式
 - **双向转换**：任意格式之间都可以相互转换（5×5=25 种转换组合）
