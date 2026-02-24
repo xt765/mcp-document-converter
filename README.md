@@ -1,16 +1,18 @@
 # MCP Document Converter
 
-mcp-name: io.github.xt765/mcp-document-converter
+<!-- mcp-name: io.github.xt765/mcp-document-converter -->
 
 MCP (Model Context Protocol) Document Converter - A powerful MCP tool for converting documents between multiple formats, enabling AI agents to easily transform documents.
 
-[![GitHub](https://img.shields.io/badge/GitHub-mcp--document--converter-black?logo=github)](https://github.com/xt765/mcp-document-converter)
-[![Gitee](https://img.shields.io/badge/Gitee-mcp--document--converter-red?logo=gitee)](https://gitee.com/xt765/mcp-document-converter)
-[![CSDN](https://img.shields.io/badge/CSDN-玄同765-orange?logo=csdn)](https://blog.csdn.net/Yunyi_Chi)
-[![PyPI](https://img.shields.io/pypi/v/mcp-document-converter?logo=pypi)](https://pypi.org/project/mcp-document-converter/)
-[![MCP Registry](https://img.shields.io/badge/MCP-Registry-blue?logo=modelcontextprotocol)](https://github.com/modelcontextprotocol/registry)
-[![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue?logo=python)](https://www.python.org/downloads/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
+[![CSDN](https://img.shields.io/badge/CSDN-玄同765-orange.svg?style=flat&logo=csdn)](https://blog.csdn.net/Yunyi_Chi)
+[![GitHub](https://img.shields.io/badge/GitHub-mcp_document_converter-black.svg?style=flat&logo=github)](https://github.com/xt765/mcp-document-converter)
+[![Gitee](https://img.shields.io/badge/Gitee-mcp_document_converter-red.svg?style=flat&logo=gitee)](https://gitee.com/xt765/mcp-document-converter)
+
+[![License](https://img.shields.io/badge/License-MIT-blue.svg?style=flat&logo=opensourceinitiative)](LICENSE)
+[![Python](https://img.shields.io/badge/python-3.10+-blue.svg?style=flat&logo=python)](https://www.python.org/downloads/)
+[![PyPI Version](https://img.shields.io/pypi/v/mcp-document-converter.svg?logo=pypi)](https://pypi.org/project/mcp-document-converter/)
+[![PyPI Downloads](https://img.shields.io/pepy/dt/mcp-document-converter.svg?logo=pypi&label=PyPI%20Downloads)](https://pepy.tech/project/mcp-document-converter)
+[![MCP Registry](https://img.shields.io/badge/MCP-Registry-blue?logo=modelcontextprotocol)](https://registry.modelcontextprotocol.io/v0.1/servers?search=io.github.xt765/mcp-document-converter)
 
 ## Features
 
@@ -46,13 +48,77 @@ MCP (Model Context Protocol) Document Converter - A powerful MCP tool for conver
 
 ## Conversion Matrix
 
-| Source \ Target | HTML | PDF | Markdown | DOCX | Text |
-|----------------|:----:|:---:|:--------:|:----:|:----:|
-| **Markdown**   |  ✅  |  ✅  |    ✅    |  ✅  |  ✅  |
-| **HTML**       |  ✅  |  ✅  |    ✅    |  ✅  |  ✅  |
-| **DOCX**       |  ✅  |  ✅  |    ✅    |  ✅  |  ✅  |
-| **PDF**        |  ✅  |  ✅  |    ✅    |  ✅  |  ✅  |
-| **Text**       |  ✅  |  ✅  |    ✅    |  ✅  |  ✅  |
+```mermaid
+flowchart LR
+    subgraph Sources["Source Formats"]
+        MD_S[Markdown]
+        HTML_S[HTML]
+        DOCX_S[DOCX]
+        PDF_S[PDF]
+        TXT_S[Text]
+    end
+
+    subgraph Targets["Target Formats"]
+        MD_T[Markdown]
+        HTML_T[HTML]
+        DOCX_T[DOCX]
+        PDF_T[PDF]
+        TXT_T[Text]
+    end
+
+    MD_S --> Targets
+    HTML_S --> Targets
+    DOCX_S --> Targets
+    PDF_S --> Targets
+    TXT_S --> Targets
+```
+
+## Architecture
+
+```mermaid
+flowchart TB
+    subgraph Parsers["Parsers"]
+        MD[Markdown]
+        DOCX1[DOCX]
+        HTML1[HTML]
+        PDF1[PDF]
+        TXT1[Text]
+    end
+
+    subgraph IR["Intermediate Representation (IR)"]
+        DT[Document Tree]
+        META[Metadata]
+        ASSETS[Assets]
+    end
+
+    subgraph Renderers["Renderers"]
+        HTML2[HTML]
+        PDF2[PDF]
+        MD2[Markdown]
+        DOCX2[DOCX]
+        TXT2[Text]
+    end
+
+    MD --> IR
+    DOCX1 --> IR
+    HTML1 --> IR
+    PDF1 --> IR
+    TXT1 --> IR
+    
+    IR --> HTML2
+    IR --> PDF2
+    IR --> MD2
+    IR --> DOCX2
+    IR --> TXT2
+```
+
+### Core Components
+
+1. **DocumentIR (Intermediate Representation)**: Unified abstraction for all documents, containing document tree, metadata, assets, etc.
+2. **BaseParser (Parser Base Class)**: Defines the parser interface, parses various formats into DocumentIR
+3. **BaseRenderer (Renderer Base Class)**: Defines the renderer interface, renders DocumentIR into various formats
+4. **ConverterRegistry (Registry)**: Manages all parsers and renderers, provides format lookup and auto-matching
+5. **DocumentConverter (Conversion Engine)**: Coordinates parsers and renderers to complete document conversion
 
 ## Installation
 
@@ -312,40 +378,6 @@ Convert a document from one format to another.
   }
 }
 ```
-
-## Architecture
-
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                    MCP Document Converter                        │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│   Parsers                          Renderers                     │
-│   ┌─────────────┐                  ┌─────────────┐              │
-│   │ Markdown    │ ───────────────→ │ HTML        │              │
-│   │ DOCX        │ ───────────────→ │ PDF         │              │
-│   │ HTML        │ ───────────────→ │ Markdown    │              │
-│   │ PDF         │ ───────────────→ │ DOCX        │              │
-│   │ Text        │ ───────────────→ │ Text        │              │
-│   └─────────────┘                  └─────────────┘              │
-│          ↓                                ↓                     │
-│   ┌─────────────────────────────────────────────────────┐       │
-│   │         Intermediate Representation (IR)             │       │
-│   │  - Document Tree                                     │       │
-│   │  - Metadata                                          │       │
-│   │  - Assets (images, attachments, etc.)                │       │
-│   └─────────────────────────────────────────────────────┘       │
-│                                                                  │
-└─────────────────────────────────────────────────────────────────┘
-```
-
-### Core Components
-
-1. **DocumentIR (Intermediate Representation)**: Unified abstraction for all documents, containing document tree, metadata, assets, etc.
-2. **BaseParser (Parser Base Class)**: Defines the parser interface, parses various formats into DocumentIR
-3. **BaseRenderer (Renderer Base Class)**: Defines the renderer interface, renders DocumentIR into various formats
-4. **ConverterRegistry (Registry)**: Manages all parsers and renderers, provides format lookup and auto-matching
-5. **DocumentConverter (Conversion Engine)**: Coordinates parsers and renderers to complete document conversion
 
 ## Extension Development
 

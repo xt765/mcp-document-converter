@@ -1,18 +1,20 @@
-# MCP Document Converter
+# MCP Document Converter (MCP 文档转换器)
 
-mcp-name: io.github.xt765/mcp-document-converter
+<!-- mcp-name: io.github.xt765/mcp-document-converter -->
 
 MCP（模型上下文协议）文档转换器 - 支持多格式文档转换的 MCP 工具，让 AI 智能体能够轻松转换各种文档格式。
 
-[![GitHub](https://img.shields.io/badge/GitHub-mcp--document--converter-black?logo=github)](https://github.com/xt765/mcp-document-converter)
-[![Gitee](https://img.shields.io/badge/Gitee-mcp--document--converter-red?logo=gitee)](https://gitee.com/xt765/mcp-document-converter)
-[![CSDN](https://img.shields.io/badge/CSDN-玄同765-orange?logo=csdn)](https://blog.csdn.net/Yunyi_Chi)
-[![PyPI](https://img.shields.io/pypi/v/mcp-document-converter?logo=pypi)](https://pypi.org/project/mcp-document-converter/)
-[![MCP Registry](https://img.shields.io/badge/MCP-Registry-blue?logo=modelcontextprotocol)](https://github.com/modelcontextprotocol/registry)
-[![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue?logo=python)](https://www.python.org/downloads/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
+[![CSDN](https://img.shields.io/badge/CSDN-玄同765-orange.svg?style=flat&logo=csdn)](https://blog.csdn.net/Yunyi_Chi)
+[![GitHub](https://img.shields.io/badge/GitHub-mcp_document_converter-black.svg?style=flat&logo=github)](https://github.com/xt765/mcp-document-converter)
+[![Gitee](https://img.shields.io/badge/Gitee-mcp_document_converter-red.svg?style=flat&logo=gitee)](https://gitee.com/xt765/mcp-document-converter)
 
-## 功能特性
+[![License](https://img.shields.io/badge/License-MIT-blue.svg?style=flat&logo=opensourceinitiative)](LICENSE)
+[![Python](https://img.shields.io/badge/python-3.10+-blue.svg?style=flat&logo=python)](https://www.python.org/downloads/)
+[![PyPI Version](https://img.shields.io/pypi/v/mcp-document-converter.svg?logo=pypi)](https://pypi.org/project/mcp-document-converter/)
+[![PyPI Downloads](https://img.shields.io/pepy/dt/mcp-document-converter.svg?logo=pypi&label=PyPI%20Downloads)](https://pepy.tech/project/mcp-document-converter)
+[![MCP Registry](https://img.shields.io/badge/MCP-Registry-blue?logo=modelcontextprotocol)](https://registry.modelcontextprotocol.io/v0.1/servers?search=io.github.xt765/mcp-document-converter)
+
+## Features (功能特性)
 
 - **多格式支持**：支持 Markdown、HTML、DOCX、PDF、Text 等 5 种主流文档格式
 - **双向转换**：任意格式之间都可以相互转换（5×5=25 种转换组合）
@@ -26,33 +28,97 @@ MCP（模型上下文协议）文档转换器 - 支持多格式文档转换的 M
 
 ### 解析格式（输入）
 
-| 格式 | 扩展名 | MIME 类型 | 特性 |
-|------|--------|-----------|------|
-| Markdown | .md, .markdown, .mdown, .mkd | text/markdown | 支持 YAML Front Matter、GFM 扩展 |
-| HTML | .html, .htm | text/html | 支持语义化标签解析 |
-| DOCX | .docx | application/vnd.openxmlformats-officedocument.wordprocessingml.document | 支持样式、表格、图片 |
-| PDF | .pdf | application/pdf | 支持文本提取和结构识别 |
-| Text | .txt, .text | text/plain | 支持自动编码检测和结构识别 |
+| 格式     | 扩展名                       | MIME 类型                                                               | 特性                             |
+| -------- | ---------------------------- | ----------------------------------------------------------------------- | -------------------------------- |
+| Markdown | .md, .markdown, .mdown, .mkd | text/markdown                                                           | 支持 YAML Front Matter、GFM 扩展 |
+| HTML     | .html, .htm                  | text/html                                                               | 支持语义化标签解析               |
+| DOCX     | .docx                        | application/vnd.openxmlformats-officedocument.wordprocessingml.document | 支持样式、表格、图片             |
+| PDF      | .pdf                         | application/pdf                                                         | 支持文本提取和结构识别           |
+| Text     | .txt, .text                  | text/plain                                                              | 支持自动编码检测和结构识别       |
 
 ### 渲染格式（输出）
 
-| 格式 | 扩展名 | MIME 类型 | 特性 |
-|------|--------|-----------|------|
-| HTML | .html | text/html | 美观的样式、代码高亮、响应式设计 |
-| Markdown | .md | text/markdown | 标准 Markdown 格式、YAML Front Matter |
-| DOCX | .docx | application/vnd.openxmlformats-officedocument.wordprocessingml.document | Word 文档格式、保留样式 |
-| PDF | .pdf | application/pdf | 使用 WeasyPrint 生成、支持分页 |
-| Text | .txt | text/plain | 纯文本、保留基本格式 |
+| 格式     | 扩展名 | MIME 类型                                                               | 特性                                  |
+| -------- | ------ | ----------------------------------------------------------------------- | ------------------------------------- |
+| HTML     | .html  | text/html                                                               | 美观的样式、代码高亮、响应式设计      |
+| Markdown | .md    | text/markdown                                                           | 标准 Markdown 格式、YAML Front Matter |
+| DOCX     | .docx  | application/vnd.openxmlformats-officedocument.wordprocessingml.document | Word 文档格式、保留样式               |
+| PDF      | .pdf   | application/pdf                                                         | 使用 WeasyPrint 生成、支持分页        |
+| Text     | .txt   | text/plain                                                              | 纯文本、保留基本格式                  |
 
 ## 转换矩阵
 
-| 源格式 \ 目标格式 | HTML | PDF | Markdown | DOCX | Text |
-|------------------|:----:|:---:|:--------:|:----:|:----:|
-| **Markdown**     |  ✅  |  ✅  |    ✅    |  ✅  |  ✅  |
-| **HTML**         |  ✅  |  ✅  |    ✅    |  ✅  |  ✅  |
-| **DOCX**         |  ✅  |  ✅  |    ✅    |  ✅  |  ✅  |
-| **PDF**          |  ✅  |  ✅  |    ✅    |  ✅  |  ✅  |
-| **Text**         |  ✅  |  ✅  |    ✅    |  ✅  |  ✅  |
+```mermaid
+flowchart LR
+    subgraph Sources["源格式 Source Formats"]
+        MD_S[Markdown]
+        HTML_S[HTML]
+        DOCX_S[DOCX]
+        PDF_S[PDF]
+        TXT_S[Text]
+    end
+
+    subgraph Targets["目标格式 Target Formats"]
+        MD_T[Markdown]
+        HTML_T[HTML]
+        DOCX_T[DOCX]
+        PDF_T[PDF]
+        TXT_T[Text]
+    end
+
+    MD_S --> Targets
+    HTML_S --> Targets
+    DOCX_S --> Targets
+    PDF_S --> Targets
+    TXT_S --> Targets
+```
+
+## 架构设计
+
+```mermaid
+flowchart TB
+    subgraph Parsers["Parsers 解析器"]
+        MD[Markdown]
+        DOCX1[DOCX]
+        HTML1[HTML]
+        PDF1[PDF]
+        TXT1[Text]
+    end
+
+    subgraph IR["Intermediate Representation 中间表示"]
+        DT[Document Tree 文档树]
+        META[Metadata 元数据]
+        ASSETS[Assets 资源]
+    end
+
+    subgraph Renderers["Renderers 渲染器"]
+        HTML2[HTML]
+        PDF2[PDF]
+        MD2[Markdown]
+        DOCX2[DOCX]
+        TXT2[Text]
+    end
+
+    MD --> IR
+    DOCX1 --> IR
+    HTML1 --> IR
+    PDF1 --> IR
+    TXT1 --> IR
+    
+    IR --> HTML2
+    IR --> PDF2
+    IR --> MD2
+    IR --> DOCX2
+    IR --> TXT2
+```
+
+### 核心组件
+
+1. **DocumentIR（中间表示）**：所有文档的统一抽象，包含文档树、元数据、资源等
+2. **BaseParser（解析器基类）**：定义了解析器的接口，将各种格式解析为 DocumentIR
+3. **BaseRenderer（渲染器基类）**：定义了渲染器的接口，将 DocumentIR 渲染为各种格式
+4. **ConverterRegistry（注册表）**：管理所有解析器和渲染器，提供格式查找和自动匹配
+5. **DocumentConverter（转换引擎）**：协调解析器和渲染器完成文档转换
 
 ## 安装
 
@@ -75,9 +141,11 @@ pip install -e .
 本服务器提供以下工具：
 
 ### `convert_document`
+
 将文档从一种格式转换为另一种格式。
 
 **参数：**
+
 - `source_path` (string, 必填): 源文档路径。
 - `target_format` (string, 必填): 目标格式 (`html`, `pdf`, `markdown`, `docx`, `text`)。
 - `output_path` (string, 可选): 输出文件路径。
@@ -142,11 +210,13 @@ pip install -e .
 **选项 4：使用 pip（手动安装）**
 
 首先安装包：
+
 ```bash
 pip install mcp-document-converter
 ```
 
 然后添加到配置：
+
 ```json
 {
   "mcpServers": {
@@ -282,22 +352,22 @@ else:
 
 **参数：**
 
-| 参数名 | 类型 | 必需 | 描述 |
-|--------|------|------|------|
-| `source_path` | string | ✅ | 源文件路径，支持绝对路径或相对路径 |
-| `target_format` | string | ✅ | 目标格式：`html`、`pdf`、`markdown`、`docx`、`text` |
-| `output_path` | string | ❌ | 输出文件路径（可选，默认使用源文件名） |
-| `source_format` | string | ❌ | 源格式（可选，自动检测文件扩展名） |
-| `options` | object | ❌ | 转换选项 |
+| 参数名            | 类型   | 必需 | 描述                                                          |
+| ----------------- | ------ | ---- | ------------------------------------------------------------- |
+| `source_path`   | string | ✅   | 源文件路径，支持绝对路径或相对路径                            |
+| `target_format` | string | ✅   | 目标格式：`html`、`pdf`、`markdown`、`docx`、`text` |
+| `output_path`   | string | ❌   | 输出文件路径（可选，默认使用源文件名）                        |
+| `source_format` | string | ❌   | 源格式（可选，自动检测文件扩展名）                            |
+| `options`       | object | ❌   | 转换选项                                                      |
 
 **options 选项：**
 
-| 选项名 | 类型 | 默认值 | 描述 |
-|--------|------|--------|------|
-| `template` | string | - | 模板名称 |
-| `css` | string | - | 自定义 CSS 样式 |
-| `preserve_metadata` | boolean | true | 是否保留元数据 |
-| `extract_images` | boolean | true | 是否提取图片 |
+| 选项名                | 类型    | 默认值 | 描述            |
+| --------------------- | ------- | ------ | --------------- |
+| `template`          | string  | -      | 模板名称        |
+| `css`               | string  | -      | 自定义 CSS 样式 |
+| `preserve_metadata` | boolean | true   | 是否保留元数据  |
+| `extract_images`    | boolean | true   | 是否提取图片    |
 
 **示例：**
 
@@ -313,40 +383,6 @@ else:
 }
 ```
 
-## 架构设计
-
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                    MCP Document Converter                        │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│   Parsers (解析器)                    Renderers (渲染器)         │
-│   ┌─────────────┐                    ┌─────────────┐            │
-│   │ Markdown    │ ────────────────→  │ HTML        │            │
-│   │ DOCX        │ ────────────────→  │ PDF         │            │
-│   │ HTML        │ ────────────────→  │ Markdown    │            │
-│   │ PDF         │ ────────────────→  │ DOCX        │            │
-│   │ Text        │ ────────────────→  │ Text        │            │
-│   └─────────────┘                    └─────────────┘            │
-│          ↓                                    ↓                 │
-│   ┌─────────────────────────────────────────────────────┐       │
-│   │         统一中间表示 (Intermediate Representation)   │       │
-│   │  - Document Tree (文档树)                           │       │
-│   │  - Metadata (元数据)                                │       │
-│   │  - Assets (图片、附件等资源)                         │       │
-│   └─────────────────────────────────────────────────────┘       │
-│                                                                  │
-└─────────────────────────────────────────────────────────────────┘
-```
-
-### 核心组件
-
-1. **DocumentIR（中间表示）**：所有文档的统一抽象，包含文档树、元数据、资源等
-2. **BaseParser（解析器基类）**：定义了解析器的接口，将各种格式解析为 DocumentIR
-3. **BaseRenderer（渲染器基类）**：定义了渲染器的接口，将 DocumentIR 渲染为各种格式
-4. **ConverterRegistry（注册表）**：管理所有解析器和渲染器，提供格式查找和自动匹配
-5. **DocumentConverter（转换引擎）**：协调解析器和渲染器完成文档转换
-
 ## 扩展开发
 
 ### 添加新的解析器
@@ -361,29 +397,29 @@ class MyParser(BaseParser):
     @property
     def supported_extensions(self) -> List[str]:
         return [".myext"]
-    
+  
     @property
     def format_name(self) -> str:
         return "myformat"
-    
+  
     @property
     def mime_types(self) -> List[str]:
         return ["application/x-myformat"]
-    
+  
     def parse(self, source: Union[str, Path, bytes], **options) -> DocumentIR:
         # 读取源文件
         content = self._read_source(source)
-        
+    
         # 解析为 DocumentIR
         document = DocumentIR()
         document.title = "My Document"
-        
+    
         # 添加内容节点
         document.add_node(Node(
             type=NodeType.PARAGRAPH,
             content=[Node(type=NodeType.TEXT, content="Hello World")]
         ))
-        
+    
         return document
 ```
 
@@ -398,26 +434,26 @@ class MyRenderer(BaseRenderer):
     @property
     def output_extension(self) -> str:
         return ".myext"
-    
+  
     @property
     def format_name(self) -> str:
         return "myformat"
-    
+  
     @property
     def mime_type(self) -> str:
         return "application/x-myformat"
-    
+  
     def render(self, document: DocumentIR, **options: Any) -> str:
         # 将 DocumentIR 渲染为目标格式
         parts = []
-        
+    
         if document.title:
             parts.append(f"# {document.title}")
-        
+    
         for node in document.content:
             # 渲染每个节点
             pass
-        
+    
         return "\n".join(parts)
 ```
 
@@ -444,18 +480,20 @@ python tests/test_conversion.py::test_markdown_to_html
 
 ## 环境变量
 
-| 变量名 | 描述 | 默认值 |
-|--------|------|--------|
-| `MCP_CONVERTER_LOG_LEVEL` | 日志级别 | `INFO` |
-| `MCP_CONVERTER_TEMP_DIR` | 临时文件目录 | 系统临时目录 |
+| 变量名                      | 描述         | 默认值       |
+| --------------------------- | ------------ | ------------ |
+| `MCP_CONVERTER_LOG_LEVEL` | 日志级别     | `INFO`     |
+| `MCP_CONVERTER_TEMP_DIR`  | 临时文件目录 | 系统临时目录 |
 
 ## 依赖
 
 ### 核心依赖
+
 - `mcp` >= 1.0.0 - MCP 协议实现
 - `pydantic` >= 2.0.0 - 数据验证
 
 ### 解析器依赖
+
 - `markdown` >= 3.5.0 - Markdown 解析
 - `beautifulsoup4` >= 4.12.0 - HTML 解析
 - `python-docx` >= 1.1.0 - DOCX 解析
@@ -464,6 +502,7 @@ python tests/test_conversion.py::test_markdown_to_html
 - `pyyaml` >= 6.0.0 - YAML 解析
 
 ### 渲染器依赖
+
 - `weasyprint` >= 60.0 - PDF 渲染
 - `pygments` >= 2.17.0 - 代码高亮
 - `jinja2` >= 3.1.0 - 模板引擎

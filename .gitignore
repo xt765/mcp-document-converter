@@ -60,3 +60,6 @@ Thumbs.db
 # MCP Registry
 .mcpregistry_*
 mcp-publisher.exe
+
+# Blog/Promotion (Ignored from git)
+blog/
