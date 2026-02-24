@@ -24,6 +24,53 @@ MCP (Model Context Protocol) Document Converter - A powerful MCP tool for conver
 - **Style Customization**: Support for custom CSS styles
 - **Metadata Preservation**: Preserves document title, author, creation time, and other metadata during conversion
 
+## Architecture
+
+```mermaid
+flowchart TB
+    subgraph Parsers["Parsers"]
+        MD[Markdown]
+        DOCX1[DOCX]
+        HTML1[HTML]
+        PDF1[PDF]
+        TXT1[Text]
+    end
+
+    subgraph IR["Intermediate Representation (IR)"]
+        DT[Document Tree]
+        META[Metadata]
+        ASSETS[Assets]
+    end
+
+    subgraph Renderers["Renderers"]
+        HTML2[HTML]
+        PDF2[PDF]
+        MD2[Markdown]
+        DOCX2[DOCX]
+        TXT2[Text]
+    end
+
+    MD --> IR
+    DOCX1 --> IR
+    HTML1 --> IR
+    PDF1 --> IR
+    TXT1 --> IR
+    
+    IR --> HTML2
+    IR --> PDF2
+    IR --> MD2
+    IR --> DOCX2
+    IR --> TXT2
+```
+
+### Core Components
+
+1. **DocumentIR (Intermediate Representation)**: Unified abstraction for all documents, containing document tree, metadata, assets, etc.
+2. **BaseParser (Parser Base Class)**: Defines the parser interface, parses various formats into DocumentIR
+3. **BaseRenderer (Renderer Base Class)**: Defines the renderer interface, renders DocumentIR into various formats
+4. **ConverterRegistry (Registry)**: Manages all parsers and renderers, provides format lookup and auto-matching
+5. **DocumentConverter (Conversion Engine)**: Coordinates parsers and renderers to complete document conversion
+
 ## Supported Formats
 
 ### Input Formats (Parsers)
@@ -72,53 +119,6 @@ flowchart LR
     PDF_S --> Targets
     TXT_S --> Targets
 ```
-
-## Architecture
-
-```mermaid
-flowchart TB
-    subgraph Parsers["Parsers"]
-        MD[Markdown]
-        DOCX1[DOCX]
-        HTML1[HTML]
-        PDF1[PDF]
-        TXT1[Text]
-    end
-
-    subgraph IR["Intermediate Representation (IR)"]
-        DT[Document Tree]
-        META[Metadata]
-        ASSETS[Assets]
-    end
-
-    subgraph Renderers["Renderers"]
-        HTML2[HTML]
-        PDF2[PDF]
-        MD2[Markdown]
-        DOCX2[DOCX]
-        TXT2[Text]
-    end
-
-    MD --> IR
-    DOCX1 --> IR
-    HTML1 --> IR
-    PDF1 --> IR
-    TXT1 --> IR
-    
-    IR --> HTML2
-    IR --> PDF2
-    IR --> MD2
-    IR --> DOCX2
-    IR --> TXT2
-```
-
-### Core Components
-
-1. **DocumentIR (Intermediate Representation)**: Unified abstraction for all documents, containing document tree, metadata, assets, etc.
-2. **BaseParser (Parser Base Class)**: Defines the parser interface, parses various formats into DocumentIR
-3. **BaseRenderer (Renderer Base Class)**: Defines the renderer interface, renders DocumentIR into various formats
-4. **ConverterRegistry (Registry)**: Manages all parsers and renderers, provides format lookup and auto-matching
-5. **DocumentConverter (Conversion Engine)**: Coordinates parsers and renderers to complete document conversion
 
 ## Installation
 

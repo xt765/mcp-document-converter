@@ -24,6 +24,53 @@ MCP（模型上下文协议）文档转换器 - 支持多格式文档转换的 M
 - **样式定制**：支持自定义 CSS 样式
 - **元数据保留**：转换过程中保留文档标题、作者、创建时间等元数据
 
+## 架构设计
+
+```mermaid
+flowchart TB
+    subgraph Parsers["Parsers 解析器"]
+        MD[Markdown]
+        DOCX1[DOCX]
+        HTML1[HTML]
+        PDF1[PDF]
+        TXT1[Text]
+    end
+
+    subgraph IR["Intermediate Representation 中间表示"]
+        DT[Document Tree 文档树]
+        META[Metadata 元数据]
+        ASSETS[Assets 资源]
+    end
+
+    subgraph Renderers["Renderers 渲染器"]
+        HTML2[HTML]
+        PDF2[PDF]
+        MD2[Markdown]
+        DOCX2[DOCX]
+        TXT2[Text]
+    end
+
+    MD --> IR
+    DOCX1 --> IR
+    HTML1 --> IR
+    PDF1 --> IR
+    TXT1 --> IR
+    
+    IR --> HTML2
+    IR --> PDF2
+    IR --> MD2
+    IR --> DOCX2
+    IR --> TXT2
+```
+
+### 核心组件
+
+1. **DocumentIR（中间表示）**：所有文档的统一抽象，包含文档树、元数据、资源等
+2. **BaseParser（解析器基类）**：定义了解析器的接口，将各种格式解析为 DocumentIR
+3. **BaseRenderer（渲染器基类）**：定义了渲染器的接口，将 DocumentIR 渲染为各种格式
+4. **ConverterRegistry（注册表）**：管理所有解析器和渲染器，提供格式查找和自动匹配
+5. **DocumentConverter（转换引擎）**：协调解析器和渲染器完成文档转换
+
 ## 支持的格式
 
 ### 解析格式（输入）
@@ -72,53 +119,6 @@ flowchart LR
     PDF_S --> Targets
     TXT_S --> Targets
 ```
-
-## 架构设计
-
-```mermaid
-flowchart TB
-    subgraph Parsers["Parsers 解析器"]
-        MD[Markdown]
-        DOCX1[DOCX]
-        HTML1[HTML]
-        PDF1[PDF]
-        TXT1[Text]
-    end
-
-    subgraph IR["Intermediate Representation 中间表示"]
-        DT[Document Tree 文档树]
-        META[Metadata 元数据]
-        ASSETS[Assets 资源]
-    end
-
-    subgraph Renderers["Renderers 渲染器"]
-        HTML2[HTML]
-        PDF2[PDF]
-        MD2[Markdown]
-        DOCX2[DOCX]
-        TXT2[Text]
-    end
-
-    MD --> IR
-    DOCX1 --> IR
-    HTML1 --> IR
-    PDF1 --> IR
-    TXT1 --> IR
-    
-    IR --> HTML2
-    IR --> PDF2
-    IR --> MD2
-    IR --> DOCX2
-    IR --> TXT2
-```
-
-### 核心组件
-
-1. **DocumentIR（中间表示）**：所有文档的统一抽象，包含文档树、元数据、资源等
-2. **BaseParser（解析器基类）**：定义了解析器的接口，将各种格式解析为 DocumentIR
-3. **BaseRenderer（渲染器基类）**：定义了渲染器的接口，将 DocumentIR 渲染为各种格式
-4. **ConverterRegistry（注册表）**：管理所有解析器和渲染器，提供格式查找和自动匹配
-5. **DocumentConverter（转换引擎）**：协调解析器和渲染器完成文档转换
 
 ## 安装
 
