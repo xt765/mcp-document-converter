@@ -561,7 +561,10 @@ class TestDOCXParser:
 
     def test_mime_types(self, parser):
         """测试 MIME 类型"""
-        assert "application/vnd.openxmlformats-officedocument.wordprocessingml.document" in parser.mime_types
+        assert (
+            "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+            in parser.mime_types
+        )
 
     def test_parse_docx(self, parser, temp_dir):
         """测试解析 DOCX 文件"""

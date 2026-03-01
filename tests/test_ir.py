@@ -198,7 +198,9 @@ class TestDocumentIR:
     def test_get_text_content_simple(self):
         """测试获取简单文本内容"""
         doc = DocumentIR()
-        doc.add_node(Node(type=NodeType.PARAGRAPH, content=[Node(type=NodeType.TEXT, content="Hello")]))
+        doc.add_node(
+            Node(type=NodeType.PARAGRAPH, content=[Node(type=NodeType.TEXT, content="Hello")])
+        )
 
         text = doc.get_text_content()
 
@@ -254,7 +256,9 @@ class TestDocumentIR:
             modified_at=now,
             metadata={"key": "value"},
         )
-        doc.add_node(Node(type=NodeType.PARAGRAPH, content=[Node(type=NodeType.TEXT, content="内容")]))
+        doc.add_node(
+            Node(type=NodeType.PARAGRAPH, content=[Node(type=NodeType.TEXT, content="内容")])
+        )
         doc.add_asset(
             Asset(
                 id="img1",

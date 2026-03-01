@@ -2,7 +2,6 @@
 测试渲染器 - renderers 模块
 """
 
-
 import pytest
 
 from mcp_document_converter.core.ir import DocumentIR, Node, NodeType

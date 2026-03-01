@@ -104,6 +104,7 @@ class TestRegistryFunctions:
         # 清除全局注册表
         import mcp_document_converter.registry as reg_module
         from mcp_document_converter.registry import ConverterRegistry, get_registry
+
         reg_module._registry = None
 
         registry = get_registry()

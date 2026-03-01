@@ -2,7 +2,6 @@
 测试边缘情况 - 提升覆盖率
 """
 
-
 import pytest
 
 from mcp_document_converter.core.engine import DocumentConverter
@@ -94,9 +93,7 @@ class TestCoreIREdgeCases:
     def test_get_text_content_with_empty_string(self):
         """测试空字符串内容"""
         doc = DocumentIR()
-        doc.add_node(
-            Node(type=NodeType.PARAGRAPH, content=[Node(type=NodeType.TEXT, content="")])
-        )
+        doc.add_node(Node(type=NodeType.PARAGRAPH, content=[Node(type=NodeType.TEXT, content="")]))
 
         text = doc.get_text_content()
 
@@ -247,7 +244,7 @@ class TestHTMLParserEdgeCases:
         """测试 article 元素"""
         html_path = temp_dir / "test.html"
         html_path.write_text(
-            '<html><body><article><p>Article content</p></article></body></html>',
+            "<html><body><article><p>Article content</p></article></body></html>",
             encoding="utf-8",
         )
 
@@ -259,7 +256,7 @@ class TestHTMLParserEdgeCases:
         """测试 section 元素"""
         html_path = temp_dir / "test.html"
         html_path.write_text(
-            '<html><body><section><p>Section content</p></section></body></html>',
+            "<html><body><section><p>Section content</p></section></body></html>",
             encoding="utf-8",
         )
 
@@ -271,7 +268,7 @@ class TestHTMLParserEdgeCases:
         """测试 main 元素"""
         html_path = temp_dir / "test.html"
         html_path.write_text(
-            '<html><body><main><p>Main content</p></main></body></html>',
+            "<html><body><main><p>Main content</p></main></body></html>",
             encoding="utf-8",
         )
 
@@ -283,7 +280,7 @@ class TestHTMLParserEdgeCases:
         """测试带 tbody 的表格"""
         html_path = temp_dir / "test.html"
         html_path.write_text(
-            '<html><body><table><thead><tr><th>H</th></tr></thead><tbody><tr><td>D</td></tr></tbody></table></body></html>',
+            "<html><body><table><thead><tr><th>H</th></tr></thead><tbody><tr><td>D</td></tr></tbody></table></body></html>",
             encoding="utf-8",
         )
 
@@ -296,7 +293,7 @@ class TestHTMLParserEdgeCases:
         """测试未知元素"""
         html_path = temp_dir / "test.html"
         html_path.write_text(
-            '<html><body><unknown>Content</unknown></body></html>',
+            "<html><body><unknown>Content</unknown></body></html>",
             encoding="utf-8",
         )
 
@@ -493,7 +490,9 @@ class TestHTMLRendererEdgeCases:
             Node(
                 type=NodeType.DOCUMENT,
                 content=[
-                    Node(type=NodeType.PARAGRAPH, content=[Node(type=NodeType.TEXT, content="Text")])
+                    Node(
+                        type=NodeType.PARAGRAPH, content=[Node(type=NodeType.TEXT, content="Text")]
+                    )
                 ],
             )
         )
@@ -549,7 +548,9 @@ class TestMarkdownRendererEdgeCases:
             Node(
                 type=NodeType.DOCUMENT,
                 content=[
-                    Node(type=NodeType.PARAGRAPH, content=[Node(type=NodeType.TEXT, content="Text")])
+                    Node(
+                        type=NodeType.PARAGRAPH, content=[Node(type=NodeType.TEXT, content="Text")]
+                    )
                 ],
             )
         )
@@ -585,7 +586,10 @@ class TestMarkdownRendererEdgeCases:
             Node(
                 type=NodeType.PARAGRAPH,
                 content=[
-                    Node(type=NodeType.STRIKETHROUGH, content=[Node(type=NodeType.TEXT, content="del")])
+                    Node(
+                        type=NodeType.STRIKETHROUGH,
+                        content=[Node(type=NodeType.TEXT, content="del")],
+                    )
                 ],
             )
         )
@@ -616,7 +620,9 @@ class TestTextRendererEdgeCases:
             Node(
                 type=NodeType.DOCUMENT,
                 content=[
-                    Node(type=NodeType.PARAGRAPH, content=[Node(type=NodeType.TEXT, content="Text")])
+                    Node(
+                        type=NodeType.PARAGRAPH, content=[Node(type=NodeType.TEXT, content="Text")]
+                    )
                 ],
             )
         )
@@ -658,9 +664,14 @@ class TestTextRendererEdgeCases:
                 type=NodeType.PARAGRAPH,
                 content=[
                     Node(type=NodeType.STRONG, content=[Node(type=NodeType.TEXT, content="bold")]),
-                    Node(type=NodeType.EMPHASIS, content=[Node(type=NodeType.TEXT, content="italic")]),
+                    Node(
+                        type=NodeType.EMPHASIS, content=[Node(type=NodeType.TEXT, content="italic")]
+                    ),
                     Node(type=NodeType.CODE_INLINE, content="code"),
-                    Node(type=NodeType.STRIKETHROUGH, content=[Node(type=NodeType.TEXT, content="del")]),
+                    Node(
+                        type=NodeType.STRIKETHROUGH,
+                        content=[Node(type=NodeType.TEXT, content="del")],
+                    ),
                 ],
             )
         )
@@ -694,7 +705,9 @@ class TestDOCXRendererEdgeCases:
             Node(
                 type=NodeType.DOCUMENT,
                 content=[
-                    Node(type=NodeType.PARAGRAPH, content=[Node(type=NodeType.TEXT, content="Text")])
+                    Node(
+                        type=NodeType.PARAGRAPH, content=[Node(type=NodeType.TEXT, content="Text")]
+                    )
                 ],
             )
         )
