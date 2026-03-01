@@ -82,6 +82,7 @@ reportAssignmentType = "warning"
 reportReturnType = "warning"
 reportPossiblyUnboundVariable = "warning"
 reportGeneralTypeIssues = "warning"
+reportMissingImports = "warning"
 
 [tool.ruff]
 line-length = 100
