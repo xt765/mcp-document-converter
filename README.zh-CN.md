@@ -508,6 +508,14 @@ python tests/test_conversion.py::test_markdown_to_html
 - `pygments` >= 2.17.0 - 代码高亮
 - `jinja2` >= 3.1.0 - 模板引擎
 
+### 开发依赖
+
+- `pytest` >= 7.0.0 - 测试框架
+- `pytest-asyncio` >= 0.21.0 - 异步测试支持
+- `pytest-cov` >= 4.0.0 - 覆盖率报告
+- `basedpyright` >= 1.0.0 - 类型检查
+- `ruff` >= 0.1.0 - 代码检查和格式化
+
 ## 许可证
 
 MIT License

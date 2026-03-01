@@ -501,6 +501,13 @@ python tests/test_conversion.py::test_markdown_to_html
 - `pygments` >= 2.17.0 - Code highlighting
 - `jinja2` >= 3.1.0 - Template engine
 
+### Development Dependencies
+- `pytest` >= 7.0.0 - Testing framework
+- `pytest-asyncio` >= 0.21.0 - Async testing support
+- `pytest-cov` >= 4.0.0 - Coverage reporting
+- `basedpyright` >= 1.0.0 - Type checking
+- `ruff` >= 0.1.0 - Linting and formatting
+
 ## License
 
 MIT License

@@ -44,6 +44,16 @@ htmlcov/
 .dmypy.json
 dmypy.json
 
+# Coverage
+coverage.xml
+*.cover
+
+# Ruff
+.ruff_cache/
+
+# Basedpyright
+.basedpyright/
+
 # Trae IDE
 .trae/
 
