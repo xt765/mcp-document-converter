@@ -6,6 +6,13 @@ from pathlib import Path
 
 import pytest
 
+from mcp_document_converter.parsers import (
+    DOCXParser,
+    HTMLParser,
+    MarkdownParser,
+    PDFParser,
+    TextParser,
+)
 from mcp_document_converter.registry import (
     ConverterRegistry,
     find_parser,
@@ -13,13 +20,6 @@ from mcp_document_converter.registry import (
     get_registry,
     register_parser,
     register_renderer,
-)
-from mcp_document_converter.parsers import (
-    DOCXParser,
-    HTMLParser,
-    MarkdownParser,
-    PDFParser,
-    TextParser,
 )
 from mcp_document_converter.renderers import (
     DOCXRenderer,

@@ -2,16 +2,13 @@
 测试边缘情况 - 提升覆盖率
 """
 
-from pathlib import Path
-from unittest.mock import patch, MagicMock
 
 import pytest
 
-from mcp_document_converter.core.engine import ConversionResult, DocumentConverter
+from mcp_document_converter.core.engine import DocumentConverter
 from mcp_document_converter.core.ir import DocumentIR, Node, NodeType
 from mcp_document_converter.core.parser import BaseParser, ParseError
 from mcp_document_converter.core.renderer import BaseRenderer, RenderError
-from mcp_document_converter.registry import ConverterRegistry
 from mcp_document_converter.parsers import (
     DOCXParser,
     HTMLParser,
@@ -19,6 +16,7 @@ from mcp_document_converter.parsers import (
     PDFParser,
     TextParser,
 )
+from mcp_document_converter.registry import ConverterRegistry
 from mcp_document_converter.renderers import (
     DOCXRenderer,
     HTMLRenderer,
@@ -130,7 +128,7 @@ class TestCoreParserEdgeCases:
     def test_base_parser_abstract_methods(self):
         """测试抽象方法不能直接实例化"""
         with pytest.raises(TypeError):
-            BaseParser()
+            BaseParser()  # type: ignore[reportAbstractUsage]
 
     def test_parse_error_with_source(self):
         """测试带源信息的解析错误"""
@@ -146,7 +144,7 @@ class TestCoreRendererEdgeCases:
     def test_base_renderer_abstract_methods(self):
         """测试抽象方法不能直接实例化"""
         with pytest.raises(TypeError):
-            BaseRenderer()
+            BaseRenderer()  # type: ignore[reportAbstractUsage]
 
     def test_render_error_with_format(self):
         """测试带格式信息的渲染错误"""

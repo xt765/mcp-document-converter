@@ -2,9 +2,9 @@
 测试服务器入口点和其他未覆盖代码
 """
 
-import pytest
-from unittest.mock import patch, MagicMock, AsyncMock
 import asyncio
+
+import pytest
 
 
 class TestServerEntryPoint:
@@ -36,9 +36,7 @@ class TestModuleImports:
 
     def test_import_core_module(self):
         """测试导入核心模块"""
-        from mcp_document_converter.core import DocumentIR, Node, NodeType
-        from mcp_document_converter.core.parser import BaseParser, ParseError
-        from mcp_document_converter.core.renderer import BaseRenderer, RenderError
+        from mcp_document_converter.core import NodeType
 
         assert NodeType.HEADING is not None
         assert NodeType.PARAGRAPH is not None
@@ -46,11 +44,8 @@ class TestModuleImports:
     def test_import_parsers_module(self):
         """测试导入解析器模块"""
         from mcp_document_converter.parsers import (
-            MarkdownParser,
             HTMLParser,
-            DOCXParser,
-            PDFParser,
-            TextParser,
+            MarkdownParser,
         )
 
         assert MarkdownParser is not None
@@ -59,11 +54,8 @@ class TestModuleImports:
     def test_import_renderers_module(self):
         """测试导入渲染器模块"""
         from mcp_document_converter.renderers import (
-            MarkdownRenderer,
             HTMLRenderer,
-            DOCXRenderer,
-            PDFRenderer,
-            TextRenderer,
+            MarkdownRenderer,
         )
 
         assert MarkdownRenderer is not None
@@ -109,10 +101,9 @@ class TestRegistryFunctions:
 
     def test_get_registry_returns_registry(self):
         """测试 get_registry 返回注册表"""
-        from mcp_document_converter.registry import get_registry, ConverterRegistry
-
         # 清除全局注册表
         import mcp_document_converter.registry as reg_module
+        from mcp_document_converter.registry import ConverterRegistry, get_registry
         reg_module._registry = None
 
         registry = get_registry()
@@ -124,9 +115,9 @@ class TestRegistryFunctions:
 
     def test_register_parser_function(self):
         """测试 register_parser 函数"""
-        from mcp_document_converter.registry import register_parser, get_registry
-        from mcp_document_converter.parsers import MarkdownParser
         import mcp_document_converter.registry as reg_module
+        from mcp_document_converter.parsers import MarkdownParser
+        from mcp_document_converter.registry import get_registry, register_parser
 
         reg_module._registry = None
 
@@ -141,9 +132,9 @@ class TestRegistryFunctions:
 
     def test_register_renderer_function(self):
         """测试 register_renderer 函数"""
-        from mcp_document_converter.registry import register_renderer, get_registry
-        from mcp_document_converter.renderers import HTMLRenderer
         import mcp_document_converter.registry as reg_module
+        from mcp_document_converter.registry import get_registry, register_renderer
+        from mcp_document_converter.renderers import HTMLRenderer
 
         reg_module._registry = None
 

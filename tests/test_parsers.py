@@ -7,8 +7,7 @@ from pathlib import Path
 
 import pytest
 
-from mcp_document_converter.core.ir import DocumentIR, Node, NodeType
-from mcp_document_converter.core.parser import BaseParser, ParseError
+from mcp_document_converter.core.ir import DocumentIR, NodeType
 from mcp_document_converter.parsers.docx import DOCXParser
 from mcp_document_converter.parsers.html import HTMLParser
 from mcp_document_converter.parsers.markdown import MarkdownParser
@@ -583,7 +582,6 @@ class TestDOCXParser:
     def test_parse_bytes(self, parser, temp_dir):
         """测试解析字节内容"""
         from docx import Document
-        from io import BytesIO
 
         doc = Document()
         doc.add_paragraph("测试内容")

@@ -3,19 +3,9 @@
 """
 
 import json
-from unittest.mock import AsyncMock, patch, MagicMock
 
 import pytest
 
-from mcp_document_converter.server import (
-    _handle_can_convert,
-    _handle_convert_document,
-    _handle_list_supported_formats,
-    create_server,
-    main,
-    main_sync,
-)
-from mcp_document_converter.registry import ConverterRegistry
 from mcp_document_converter.core.engine import DocumentConverter
 from mcp_document_converter.parsers import (
     DOCXParser,
@@ -24,12 +14,21 @@ from mcp_document_converter.parsers import (
     PDFParser,
     TextParser,
 )
+from mcp_document_converter.registry import ConverterRegistry
 from mcp_document_converter.renderers import (
     DOCXRenderer,
     HTMLRenderer,
     MarkdownRenderer,
     PDFRenderer,
     TextRenderer,
+)
+from mcp_document_converter.server import (
+    _handle_can_convert,
+    _handle_convert_document,
+    _handle_list_supported_formats,
+    create_server,
+    main,
+    main_sync,
 )
 
 

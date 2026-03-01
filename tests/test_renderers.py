@@ -2,12 +2,11 @@
 测试渲染器 - renderers 模块
 """
 
-from pathlib import Path
 
 import pytest
 
-from mcp_document_converter.core.ir import Asset, DocumentIR, Node, NodeType
-from mcp_document_converter.core.renderer import BaseRenderer, RenderError
+from mcp_document_converter.core.ir import DocumentIR, Node, NodeType
+from mcp_document_converter.core.renderer import RenderError
 from mcp_document_converter.renderers.docx import DOCXRenderer
 from mcp_document_converter.renderers.html import HTMLRenderer
 from mcp_document_converter.renderers.markdown import MarkdownRenderer

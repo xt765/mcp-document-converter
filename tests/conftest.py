@@ -119,7 +119,6 @@ def sample_document_ir():
 @pytest.fixture
 def setup_full_registry():
     """设置完整注册表"""
-    from mcp_document_converter.registry import ConverterRegistry
     from mcp_document_converter.parsers import (
         DOCXParser,
         HTMLParser,
@@ -127,6 +126,7 @@ def setup_full_registry():
         PDFParser,
         TextParser,
     )
+    from mcp_document_converter.registry import ConverterRegistry
     from mcp_document_converter.renderers import (
         DOCXRenderer,
         HTMLRenderer,

@@ -2,8 +2,8 @@
 测试 PDF 解析器 - 覆盖更多代码
 """
 
+
 import pytest
-from io import BytesIO
 
 from mcp_document_converter.core.ir import NodeType
 from mcp_document_converter.parsers.pdf import PDFParser

@@ -2,17 +2,14 @@
 测试更多边缘情况 - 提升覆盖率到 90%+
 """
 
-import json
-from pathlib import Path
-from unittest.mock import patch, MagicMock, AsyncMock
+from unittest.mock import patch
 
 import pytest
 
-from mcp_document_converter.core.engine import ConversionResult, DocumentConverter
+from mcp_document_converter.core.engine import DocumentConverter
 from mcp_document_converter.core.ir import DocumentIR, Node, NodeType
 from mcp_document_converter.core.parser import ParseError
 from mcp_document_converter.core.renderer import RenderError
-from mcp_document_converter.registry import ConverterRegistry
 from mcp_document_converter.parsers import (
     DOCXParser,
     HTMLParser,
@@ -20,6 +17,7 @@ from mcp_document_converter.parsers import (
     PDFParser,
     TextParser,
 )
+from mcp_document_converter.registry import ConverterRegistry
 from mcp_document_converter.renderers import (
     DOCXRenderer,
     HTMLRenderer,
@@ -73,6 +71,7 @@ class TestEngineErrorHandling:
             result = conv.convert(md_path, "html")
 
             assert result.success is False
+            assert result.error_message is not None
             assert "解析错误" in result.error_message
 
     def test_convert_with_render_error(self, converter, temp_dir, sample_markdown):
@@ -94,6 +93,7 @@ class TestEngineErrorHandling:
             result = conv.convert(md_path, "html")
 
             assert result.success is False
+            assert result.error_message is not None
             assert "渲染错误" in result.error_message
 
     def test_convert_with_general_exception(self, converter, temp_dir, sample_markdown):
@@ -115,6 +115,7 @@ class TestEngineErrorHandling:
             result = conv.convert(md_path, "html")
 
             assert result.success is False
+            assert result.error_message is not None
             assert "转换失败" in result.error_message
 
     def test_render_from_ir_with_render_error(self, converter):
@@ -137,6 +138,7 @@ class TestEngineErrorHandling:
             result = conv.render_from_ir(doc, "html")
 
             assert result.success is False
+            assert result.error_message is not None
             assert "渲染错误" in result.error_message
 
     def test_render_from_ir_with_general_exception(self, converter):
@@ -159,6 +161,7 @@ class TestEngineErrorHandling:
             result = conv.render_from_ir(doc, "html")
 
             assert result.success is False
+            assert result.error_message is not None
             assert "渲染失败" in result.error_message
 
 
@@ -187,6 +190,7 @@ class TestPDFParserErrorHandling:
     def test_parse_invalid_pdf_bytes(self, parser):
         """测试解析无效的 PDF 字节"""
         import pytest
+
         from mcp_document_converter.core.parser import ParseError
 
         # 无效的 PDF 数据
@@ -308,8 +312,6 @@ class TestDOCXParserEdgeCases:
     def test_parse_document_with_hyperlink(self, parser, temp_dir):
         """测试带超链接的文档"""
         from docx import Document
-        from docx.oxml.shared import OxmlElement
-        from docx.oxml.ns import qn
 
         docx_path = temp_dir / "hyperlink.docx"
         doc = Document()
@@ -332,7 +334,7 @@ class TestDOCXParserEdgeCases:
         doc.add_paragraph("Text before image")
         # 添加一个空的图片占位符
         p = doc.add_paragraph()
-        run = p.add_run()
+        _ = p.add_run()
         doc.add_paragraph("Text after image")
         doc.save(str(docx_path))
 

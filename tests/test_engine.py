@@ -8,9 +8,6 @@ import pytest
 
 from mcp_document_converter.core.engine import ConversionResult, DocumentConverter
 from mcp_document_converter.core.ir import DocumentIR, Node, NodeType
-from mcp_document_converter.core.parser import ParseError
-from mcp_document_converter.core.renderer import RenderError
-from mcp_document_converter.registry import ConverterRegistry
 from mcp_document_converter.parsers import (
     DOCXParser,
     HTMLParser,
@@ -18,6 +15,7 @@ from mcp_document_converter.parsers import (
     PDFParser,
     TextParser,
 )
+from mcp_document_converter.registry import ConverterRegistry
 from mcp_document_converter.renderers import (
     DOCXRenderer,
     HTMLRenderer,

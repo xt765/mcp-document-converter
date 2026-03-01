@@ -4,8 +4,6 @@
 
 from datetime import datetime
 
-import pytest
-
 from mcp_document_converter.core.ir import (
     Asset,
     DocumentIR,
@@ -80,7 +78,7 @@ class TestNode:
 
     def test_node_post_init_converts_non_node_items(self):
         """测试 __post_init__ 转换非 Node 项"""
-        node = Node(type=NodeType.PARAGRAPH, content=["text", "more text"])
+        node = Node(type=NodeType.PARAGRAPH, content=["text", "more text"])  # type: ignore[reportArgumentType]
 
         assert isinstance(node.content, list)
         assert all(isinstance(item, Node) for item in node.content)
