@@ -1,21 +1,24 @@
-# MCP Document Converter (MCP 文档转换器)
+<h1 align="center">MCP Document Converter (MCP 文档转换器)</h1>
 
 <!-- mcp-name: io.github.xt765/mcp-document-converter -->
 
-MCP（模型上下文协议）文档转换器 - 支持多格式文档转换的 MCP 工具，让 AI 智能体能够轻松转换各种文档格式。
+<p align="center"><strong>MCP（模型上下文协议）文档转换器 - 支持多格式文档转换的 MCP 工具，让 AI 智能体能够轻松转换各种文档格式。</strong></p>
 
 <p align="center">🌐 <strong>语言</strong>: <a href="README.md">English</a> | <a href="README.zh-CN.md">中文</a></p>
 
-[![CSDN](https://img.shields.io/badge/CSDN-玄同765-orange.svg?style=flat&logo=csdn)](https://blog.csdn.net/Yunyi_Chi)
-[![GitHub](https://img.shields.io/badge/GitHub-mcp_document_converter-black.svg?style=flat&logo=github)](https://github.com/xt765/mcp-document-converter)
-[![Gitee](https://img.shields.io/badge/Gitee-mcp_document_converter-red.svg?style=flat&logo=gitee)](https://gitee.com/xt765/mcp-document-converter)
-
-[![License](https://img.shields.io/badge/License-MIT-blue.svg?style=flat&logo=opensourceinitiative)](LICENSE)
-[![Python](https://img.shields.io/badge/python-3.10+-blue.svg?style=flat&logo=python)](https://www.python.org/downloads/)
-[![PyPI Version](https://img.shields.io/pypi/v/mcp-document-converter.svg?logo=pypi)](https://pypi.org/project/mcp-document-converter/)
-[![PyPI Downloads](https://img.shields.io/pepy/dt/mcp-document-converter.svg?logo=pypi&label=PyPI%20Downloads)](https://pepy.tech/project/mcp-document-converter)
-[![MCP Registry](https://img.shields.io/badge/MCP-Registry-blue?logo=modelcontextprotocol)](https://registry.modelcontextprotocol.io/v0.1/servers?search=io.github.xt765/mcp-document-converter)
-[![MCP Marketplace](https://img.shields.io/badge/MCP-Marketplace-22c55e.svg?style=flat&logo=shopify&logoColor=white)](https://mcp-marketplace.io/server/io-github-xt765-mcp-document-converter)
+<p align="center">
+  <a href="https://blog.csdn.net/Yunyi_Chi"><img src="https://img.shields.io/badge/CSDN-玄同765-orange.svg?style=flat&logo=csdn" alt="CSDN"></a>
+  <a href="https://github.com/xt765/mcp-document-converter"><img src="https://img.shields.io/badge/GitHub-mcp_document_converter-black.svg?style=flat&logo=github" alt="GitHub"></a>
+  <a href="https://gitee.com/xt765/mcp-document-converter"><img src="https://img.shields.io/badge/Gitee-mcp_document_converter-red.svg?style=flat&logo=gitee" alt="Gitee"></a>
+</p>
+<p align="center">
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue.svg?style=flat&logo=opensourceinitiative" alt="License"></a>
+  <a href="https://www.python.org/downloads/"><img src="https://img.shields.io/badge/python-3.10+-blue.svg?style=flat&logo=python" alt="Python"></a>
+  <a href="https://pypi.org/project/mcp-document-converter/"><img src="https://img.shields.io/pypi/v/mcp-document-converter.svg?logo=pypi" alt="PyPI Version"></a>
+  <a href="https://pepy.tech/project/mcp-document-converter"><img src="https://img.shields.io/pepy/dt/mcp-document-converter.svg?logo=pypi&label=PyPI%20Downloads" alt="PyPI Downloads"></a>
+  <a href="https://registry.modelcontextprotocol.io/v0.1/servers?search=io.github.xt765/mcp-document-converter"><img src="https://img.shields.io/badge/MCP-Registry-blue?logo=modelcontextprotocol" alt="MCP Registry"></a>
+  <a href="https://mcp-marketplace.io/server/io-github-xt765-mcp-document-converter"><img src="https://img.shields.io/badge/MCP-Marketplace-22c55e.svg?style=flat&logo=shopify&logoColor=white" alt="MCP Marketplace"></a>
+</p>
 
 ## 功能特性
 
