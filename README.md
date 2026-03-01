@@ -13,6 +13,7 @@ MCP (Model Context Protocol) Document Converter - A powerful MCP tool for conver
 [![PyPI Version](https://img.shields.io/pypi/v/mcp-document-converter.svg?logo=pypi)](https://pypi.org/project/mcp-document-converter/)
 [![PyPI Downloads](https://img.shields.io/pepy/dt/mcp-document-converter.svg?logo=pypi&label=PyPI%20Downloads)](https://pepy.tech/project/mcp-document-converter)
 [![MCP Registry](https://img.shields.io/badge/MCP-Registry-blue?logo=modelcontextprotocol)](https://registry.modelcontextprotocol.io/v0.1/servers?search=io.github.xt765/mcp-document-converter)
+[![MCP Marketplace](https://img.shields.io/badge/MCP-Marketplace-22c55e.svg?style=flat&logo=shopify&logoColor=white)](https://mcp-marketplace.io/server/io-github-xt765-mcp-document-converter)
 
 ## Features
 
