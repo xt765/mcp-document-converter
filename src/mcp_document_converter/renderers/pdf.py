@@ -2,56 +2,56 @@
 PDF 渲染器 - 将中间表示渲染为 PDF
 """
 
-from pathlib import Path
-from typing import Any, List, Union, Optional
+from typing import Any
 
-from ..core.ir import DocumentIR, Node, NodeType
+from ..core.ir import DocumentIR
 from ..core.renderer import BaseRenderer, RenderError
 
 # 尝试导入 WeasyPrint，如果失败则标记为不可用
 try:
-    from weasyprint import HTML, CSS
+    from weasyprint import CSS, HTML
     from weasyprint.text.fonts import FontConfiguration
+
     WEASYPRINT_AVAILABLE = True
-except ImportError:
+except (ImportError, OSError):
     WEASYPRINT_AVAILABLE = False
 
 
 class PDFRenderer(BaseRenderer):
     """
     PDF 文档渲染器
-    
+
     将中间表示渲染为 PDF 格式。
     使用 WeasyPrint 将 HTML 转换为 PDF。
     """
-    
+
     @property
     def output_extension(self) -> str:
         return ".pdf"
-    
+
     @property
     def format_name(self) -> str:
         return "pdf"
-    
+
     @property
     def mime_type(self) -> str:
         return "application/pdf"
-    
+
     @property
     def is_binary(self) -> bool:
         return True
-    
+
     def render(self, document: DocumentIR, **options: Any) -> bytes:
         """
         将中间表示渲染为 PDF
-        
+
         Args:
             document: 文档的中间表示
             **options: 渲染选项
                 - css: 自定义 CSS
                 - page_size: 页面大小（默认 A4）
                 - margin: 页边距
-        
+
         Returns:
             PDF 二进制数据
         """
@@ -66,173 +66,173 @@ class PDFRenderer(BaseRenderer):
                     "在 Windows 上安装 WeasyPrint 需要先安装 GTK 库。\n"
                     "请访问: https://doc.courtbouillon.org/weasyprint/stable/first_steps.html#windows"
                 )
-        
+
         try:
             # 首先渲染为 HTML
             from .html import HTMLRenderer
+
             html_renderer = HTMLRenderer()
             html_content = html_renderer.render(document, **options)
-            
+
             # 添加 PDF 专用 CSS
             pdf_css = self._get_pdf_css(options)
-            
+
             # 合并 CSS
-            custom_css = options.get('css', '')
+            custom_css = options.get("css", "")
             full_css = pdf_css + custom_css
-            
+
             # 使用 WeasyPrint 转换为 PDF
             font_config = FontConfiguration()
             html_doc = HTML(string=html_content)
             css_doc = CSS(string=full_css, font_config=font_config)
-            
+
             pdf_bytes = html_doc.write_pdf(stylesheets=[css_doc], font_config=font_config)
-            
+
             return pdf_bytes
-            
+
         except Exception as e:
             raise RenderError(f"PDF 渲染失败: {str(e)}")
-    
+
     def _render_with_reportlab(self, document: DocumentIR, **options: Any) -> bytes:
         """
         使用 ReportLab 作为备选方案渲染 PDF
-        
+
         当 WeasyPrint 不可用时使用。功能较简单，但无需 GTK 依赖。
         """
         try:
-            from reportlab.lib.pagesizes import A4
-            from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
-            from reportlab.lib.units import inch
-            from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, PageBreak
-            from reportlab.pdfbase import pdfmetrics
-            from reportlab.pdfbase.ttfonts import TTFont
-            from reportlab.lib.enums import TA_LEFT
             from io import BytesIO
-            import os
-            
+
+            from reportlab.lib.enums import TA_LEFT
+            from reportlab.lib.pagesizes import A4
+            from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
+            from reportlab.lib.units import inch
+            from reportlab.platypus import Paragraph, SimpleDocTemplate, Spacer
+
             # 创建 PDF 缓冲区
             buffer = BytesIO()
-            
+
             # 创建文档
-            page_size = options.get('page_size', 'A4')
-            margin = options.get('margin', 2)
-            
+            options.get("page_size", "A4")
+            margin = options.get("margin", 2)
+
             doc = SimpleDocTemplate(
                 buffer,
                 pagesize=A4,
                 rightMargin=margin * inch,
                 leftMargin=margin * inch,
                 topMargin=margin * inch,
-                bottomMargin=margin * inch
+                bottomMargin=margin * inch,
             )
-            
+
             # 注册中文字体
             chinese_font_name = self._register_chinese_font()
-            
+
             # 获取样式
             styles = getSampleStyleSheet()
-            
+
             # 创建支持中文的样式
             chinese_style = ParagraphStyle(
-                'ChineseNormal',
-                parent=styles['Normal'],
+                "ChineseNormal",
+                parent=styles["Normal"],
                 fontName=chinese_font_name,
                 fontSize=12,
                 leading=20,
                 alignment=TA_LEFT,
             )
-            
+
             chinese_heading1 = ParagraphStyle(
-                'ChineseHeading1',
-                parent=styles['Heading1'],
+                "ChineseHeading1",
+                parent=styles["Heading1"],
                 fontName=chinese_font_name,
                 fontSize=24,
                 spaceAfter=30,
             )
-            
+
             chinese_heading2 = ParagraphStyle(
-                'ChineseHeading2',
-                parent=styles['Heading2'],
+                "ChineseHeading2",
+                parent=styles["Heading2"],
                 fontName=chinese_font_name,
                 fontSize=18,
                 spaceAfter=20,
             )
-            
+
             chinese_heading3 = ParagraphStyle(
-                'ChineseHeading3',
-                parent=styles['Heading3'],
+                "ChineseHeading3",
+                parent=styles["Heading3"],
                 fontName=chinese_font_name,
                 fontSize=14,
                 spaceAfter=15,
             )
-            
+
             chinese_code = ParagraphStyle(
-                'ChineseCode',
-                parent=styles['Code'],
-                fontName='Courier',
+                "ChineseCode",
+                parent=styles["Code"],
+                fontName="Courier",
                 fontSize=9,
                 leftIndent=20,
             )
-            
+
             # 更新样式表
             styles.add(chinese_style)
             styles.add(chinese_heading1)
             styles.add(chinese_heading2)
             styles.add(chinese_heading3)
             styles.add(chinese_code)
-            
+
             story = []
-            
+
             # 添加标题
             if document.title:
                 title_style = ParagraphStyle(
-                    'CustomTitle',
+                    "CustomTitle",
                     parent=chinese_heading1,
                     fontSize=24,
                     spaceAfter=30,
                 )
                 story.append(Paragraph(document.title, title_style))
                 story.append(Spacer(1, 0.2 * inch))
-            
+
             # 添加作者信息
             if document.author:
                 author_style = ParagraphStyle(
-                    'AuthorStyle',
+                    "AuthorStyle",
                     parent=chinese_style,
                     fontSize=10,
-                    textColor='gray',
+                    textColor="gray",
                     spaceAfter=20,
                 )
                 story.append(Paragraph(f"Author: {document.author}", author_style))
                 story.append(Spacer(1, 0.2 * inch))
-            
+
             # 渲染内容
             for node in document.content:
                 self._render_node_to_reportlab(node, story, styles, chinese_font_name)
-            
+
             # 构建 PDF
             doc.build(story)
-            
+
             # 获取 PDF 数据
             pdf_data = buffer.getvalue()
             buffer.close()
-            
+
             return pdf_data
-            
+
         except Exception as e:
             raise RenderError(f"ReportLab PDF 渲染失败: {str(e)}")
-    
+
     def _register_chinese_font(self):
         """注册中文字体，返回字体名称"""
+        import os
+
         from reportlab.pdfbase import pdfmetrics
         from reportlab.pdfbase.ttfonts import TTFont
-        import os
-        
+
         # 尝试常见的中文字体路径
         font_paths = [
             # Windows 系统字体
             "C:/Windows/Fonts/simhei.ttf",  # 黑体
             "C:/Windows/Fonts/simsun.ttc",  # 宋体
-            "C:/Windows/Fonts/msyh.ttc",    # 微软雅黑
+            "C:/Windows/Fonts/msyh.ttc",  # 微软雅黑
             "C:/Windows/Fonts/msyhbd.ttc",  # 微软雅黑粗体
             # Linux 系统字体
             "/usr/share/fonts/truetype/wqy/wqy-zenhei.ttc",
@@ -241,54 +241,54 @@ class PDFRenderer(BaseRenderer):
             "/System/Library/Fonts/PingFang.ttc",
             "/Library/Fonts/Arial Unicode.ttf",
         ]
-        
+
         for font_path in font_paths:
             if os.path.exists(font_path):
                 try:
-                    font_name = os.path.basename(font_path).split('.')[0]
+                    font_name = os.path.basename(font_path).split(".")[0]
                     pdfmetrics.registerFont(TTFont(font_name, font_path))
                     return font_name
-                except:
+                except Exception:
                     continue
-        
+
         # 如果没有找到中文字体，使用默认的 Helvetica（中文会显示为黑块）
-        return 'Helvetica'
-    
-    def _render_node_to_reportlab(self, node, story, styles, chinese_font_name='Helvetica'):
+        return "Helvetica"
+
+    def _render_node_to_reportlab(self, node, story, styles, chinese_font_name="Helvetica"):
         """将节点渲染为 ReportLab 元素"""
-        from reportlab.platypus import Paragraph, Spacer, PageBreak
         from reportlab.lib.styles import ParagraphStyle
-        from reportlab.lib.enums import TA_LEFT, TA_CENTER, TA_JUSTIFY
         from reportlab.lib.units import inch
-        
-        if node.type.name == 'HEADING':
-            level = node.attributes.get('level', 1)
+        from reportlab.platypus import PageBreak, Paragraph, Spacer
+
+        if node.type.name == "HEADING":
+            level = node.attributes.get("level", 1)
             text = self._extract_text(node)
-            
+
             # 使用支持中文的标题样式
-            style_name = f'ChineseHeading{min(level, 3)}'
+            style_name = f"ChineseHeading{min(level, 3)}"
             if style_name in styles:
                 style = styles[style_name]
             else:
-                style = styles['ChineseHeading1']
-            
+                style = styles["ChineseHeading1"]
+
             story.append(Paragraph(text, style))
             story.append(Spacer(1, 0.1 * inch))
-            
-        elif node.type.name == 'PARAGRAPH':
+
+        elif node.type.name == "PARAGRAPH":
             text = self._extract_text(node)
             if text.strip():
                 # 使用支持中文的正文样式
-                story.append(Paragraph(text, styles.get('ChineseNormal', styles['Normal'])))
+                story.append(Paragraph(text, styles.get("ChineseNormal", styles["Normal"])))
                 story.append(Spacer(1, 0.1 * inch))
-                
-        elif node.type.name == 'CODE_BLOCK':
-            code = node.content if isinstance(node.content, str) else ''
+
+        elif node.type.name == "CODE_BLOCK":
+            code = node.content if isinstance(node.content, str) else ""
             # 使用支持中文的等宽字体样式
             from reportlab.platypus import Preformatted
+
             code_style = ParagraphStyle(
-                'CodeStyle',
-                parent=styles['Code'],
+                "CodeStyle",
+                parent=styles["Code"],
                 fontName=chinese_font_name,  # 使用支持中文的字体
                 fontSize=9,
                 leftIndent=20,
@@ -296,89 +296,89 @@ class PDFRenderer(BaseRenderer):
                 spaceAfter=10,
             )
             # 转义 XML 特殊字符
-            code_escaped = code.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
+            code_escaped = code.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
             story.append(Preformatted(code_escaped, code_style))
             story.append(Spacer(1, 0.1 * inch))
-            
-        elif node.type.name == 'HORIZONTAL_RULE':
+
+        elif node.type.name == "HORIZONTAL_RULE":
             story.append(Spacer(1, 0.2 * inch))
-            
-        elif node.type.name == 'PAGE_BREAK':
+
+        elif node.type.name == "PAGE_BREAK":
             story.append(PageBreak())
-    
+
     def _extract_text(self, node) -> str:
         """从节点中提取纯文本"""
         if isinstance(node.content, str):
             return node.content
-        
+
         if not isinstance(node.content, list):
             return ""
-        
+
         parts = []
         for child in node.content:
-            if hasattr(child, 'type'):
+            if hasattr(child, "type"):
                 parts.append(self._extract_text(child))
             else:
                 parts.append(str(child))
-        
-        return ''.join(parts)
-    
+
+        return "".join(parts)
+
     def _get_pdf_css(self, options: dict) -> str:
         """获取 PDF 专用 CSS"""
-        page_size = options.get('page_size', 'A4')
-        margin = options.get('margin', '2cm')
-        
-        return f'''
+        page_size = options.get("page_size", "A4")
+        margin = options.get("margin", "2cm")
+
+        return f"""
         @page {{
             size: {page_size};
             margin: {margin};
-            
+
             @top-center {{
                 content: string(doctitle);
                 font-size: 9pt;
                 color: #666;
             }}
-            
+
             @bottom-center {{
                 content: counter(page);
                 font-size: 9pt;
             }}
         }}
-        
+
         h1 {{
             string-set: doctitle content();
         }}
-        
+
         /* PDF 优化 */
         body {{
             background: white !important;
             padding: 0 !important;
         }}
-        
+
         .container {{
             box-shadow: none !important;
             max-width: 100% !important;
             padding: 0 !important;
         }}
-        
+
         /* 分页控制 */
         h1, h2, h3 {{
             page-break-after: avoid;
         }}
-        
+
         pre, table, figure, img {{
             page-break-inside: avoid;
         }}
-        
+
         /* 打印链接 */
         a {{
             color: #3498db;
             text-decoration: none;
         }}
-        
+
         a[href]::after {{
             content: " (" attr(href) ")";
             font-size: 0.8em;
             color: #666;
         }}
-        '''
+        """
