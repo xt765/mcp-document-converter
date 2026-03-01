@@ -4,6 +4,8 @@
 
 MCP (Model Context Protocol) Document Converter - A powerful MCP tool for converting documents between multiple formats, enabling AI agents to easily transform documents.
 
+<p align="center">🌐 <strong>Language</strong>: <a href="README.md">English</a> | <a href="README.zh-CN.md">中文</a></p>
+
 [![CSDN](https://img.shields.io/badge/CSDN-玄同765-orange.svg?style=flat&logo=csdn)](https://blog.csdn.net/Yunyi_Chi)
 [![GitHub](https://img.shields.io/badge/GitHub-mcp_document_converter-black.svg?style=flat&logo=github)](https://github.com/xt765/mcp-document-converter)
 [![Gitee](https://img.shields.io/badge/Gitee-mcp_document_converter-red.svg?style=flat&logo=gitee)](https://gitee.com/xt765/mcp-document-converter)
@@ -24,6 +26,14 @@ MCP (Model Context Protocol) Document Converter - A powerful MCP tool for conver
 - **Syntax Highlighting**: HTML and PDF outputs support code syntax highlighting
 - **Style Customization**: Support for custom CSS styles
 - **Metadata Preservation**: Preserves document title, author, creation time, and other metadata during conversion
+
+---
+
+## 📚 Documentation
+
+[User Guide](docs/en/USER_GUIDE.md) · [API Reference](docs/en/API.md) · [Contributing](docs/en/CONTRIBUTING.md) · [Changelog](docs/en/CHANGELOG.md) · [License](LICENSE)
+
+---
 
 ## Architecture
 
@@ -231,11 +241,11 @@ Then add to configuration:
 
 **Configuration Example:**
 
-![1770102311686](Img/1770102311686.png)
+![Cherry Studio Configuration](docs/images/1770102311686.png)
 
 **Usage Example:**
 
-![1770102446855](Img/1770102446855.png)
+![Cherry Studio Usage](docs/images/1770102446855.png)
 
 ## Usage
 

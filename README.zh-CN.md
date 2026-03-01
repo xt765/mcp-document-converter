@@ -4,6 +4,8 @@
 
 MCP（模型上下文协议）文档转换器 - 支持多格式文档转换的 MCP 工具，让 AI 智能体能够轻松转换各种文档格式。
 
+<p align="center">🌐 <strong>语言</strong>: <a href="README.md">English</a> | <a href="README.zh-CN.md">中文</a></p>
+
 [![CSDN](https://img.shields.io/badge/CSDN-玄同765-orange.svg?style=flat&logo=csdn)](https://blog.csdn.net/Yunyi_Chi)
 [![GitHub](https://img.shields.io/badge/GitHub-mcp_document_converter-black.svg?style=flat&logo=github)](https://github.com/xt765/mcp-document-converter)
 [![Gitee](https://img.shields.io/badge/Gitee-mcp_document_converter-red.svg?style=flat&logo=gitee)](https://gitee.com/xt765/mcp-document-converter)
@@ -24,6 +26,14 @@ MCP（模型上下文协议）文档转换器 - 支持多格式文档转换的 M
 - **代码高亮**：HTML 和 PDF 输出支持语法高亮
 - **样式定制**：支持自定义 CSS 样式
 - **元数据保留**：转换过程中保留文档标题、作者、创建时间等元数据
+
+---
+
+## 📚 文档中心
+
+[用户指南](docs/zh/USER_GUIDE.md) · [API 参考](docs/zh/API.md) · [贡献指南](docs/zh/CONTRIBUTING.md) · [更新日志](docs/zh/CHANGELOG.md) · [许可证](LICENSE)
+
+---
 
 ## 架构设计
 
@@ -235,11 +245,11 @@ pip install mcp-document-converter
 
 **配置示例：**
 
-![1770102311686](Img/1770102311686.png)
+![Cherry Studio 配置示例](docs/images/1770102311686.png)
 
 **使用示例：**
 
-![1770102446855](Img/1770102446855.png)
+![Cherry Studio 使用示例](docs/images/1770102446855.png)
 
 ## 使用方法
 
