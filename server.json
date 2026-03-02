@@ -2,7 +2,7 @@
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.github.xt765/mcp-document-converter",
   "description": "Convert PDF, DOCX, HTML, Markdown, and Text for AI assistant context injection.",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "license": "MIT",
   "authors": [
     {
@@ -20,7 +20,7 @@
     {
       "registryType": "pypi",
       "identifier": "mcp-document-converter",
-      "version": "0.2.1",
+      "version": "0.2.2",
       "transport": {
         "type": "stdio"
       }

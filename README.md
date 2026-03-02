@@ -498,21 +498,21 @@ python tests/test_conversion.py::test_markdown_to_html
 ## Dependencies
 
 ### Core Dependencies
-- `mcp` >= 1.23.0 - MCP protocol implementation
-- `pydantic` >= 2.4.0 - Data validation
+- `mcp` >= 1.26.0 - MCP protocol implementation
+- `pydantic` >= 2.12.5 - Data validation
 
 ### Parser Dependencies
 - `markdown` >= 3.5.0 - Markdown parsing
 - `beautifulsoup4` >= 4.12.0 - HTML parsing
 - `python-docx` >= 1.1.0 - DOCX parsing
-- `pypdf` >= 6.1.3 - PDF parsing
+- `pypdf` >= 6.7.4 - PDF parsing
 - `chardet` >= 5.0.0 - Encoding detection
 - `pyyaml` >= 6.0.0 - YAML parsing
 
 ### Renderer Dependencies
 - `weasyprint` >= 60.0 - PDF rendering
 - `pygments` >= 2.17.0 - Code highlighting
-- `jinja2` >= 3.1.5 - Template engine
+- `jinja2` >= 3.1.6 - Template engine
 - `reportlab` >= 4.0.0 - PDF generation
 
 ### Development Dependencies

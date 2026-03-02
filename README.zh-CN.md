@@ -503,15 +503,15 @@ python tests/test_conversion.py::test_markdown_to_html
 
 ### 核心依赖
 
-- `mcp` >= 1.23.0 - MCP 协议实现
-- `pydantic` >= 2.4.0 - 数据验证
+- `mcp` >= 1.26.0 - MCP 协议实现
+- `pydantic` >= 2.12.5 - 数据验证
 
 ### 解析器依赖
 
 - `markdown` >= 3.5.0 - Markdown 解析
 - `beautifulsoup4` >= 4.12.0 - HTML 解析
 - `python-docx` >= 1.1.0 - DOCX 解析
-- `pypdf` >= 6.1.3 - PDF 解析
+- `pypdf` >= 6.7.4 - PDF 解析
 - `chardet` >= 5.0.0 - 编码检测
 - `pyyaml` >= 6.0.0 - YAML 解析
 
@@ -519,7 +519,7 @@ python tests/test_conversion.py::test_markdown_to_html
 
 - `weasyprint` >= 60.0 - PDF 渲染
 - `pygments` >= 2.17.0 - 代码高亮
-- `jinja2` >= 3.1.5 - 模板引擎
+- `jinja2` >= 3.1.6 - 模板引擎
 - `reportlab` >= 4.0.0 - PDF 生成
 
 ### 开发依赖
