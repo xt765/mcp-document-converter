@@ -5,6 +5,21 @@
 格式基于 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.0.0/)，
 本项目遵循 [语义化版本](https://semver.org/lang/zh-CN/)。
 
+## [0.2.1] - 2025-03-02
+
+### 安全修复
+
+- **依赖安全更新**：修复 11 个已知 CVE 漏洞
+  - MCP SDK: 更新至 1.23.0，修复 CVE-2025-66416、CVE-2025-53365、CVE-2025-53366
+  - PyPDF2 → pypdf: 迁移至 pypdf 6.1.3，修复 CVE-2025-62708、CVE-2025-62707、CVE-2025-55197、CVE-2023-36464
+  - Jinja2: 更新至 3.1.5，修复 CVE-2024-56326、CVE-2024-56201、CVE-2024-22195
+  - Pydantic: 更新至 2.4.0，修复 CVE-2024-3772
+
+### 变更
+
+- **依赖清理**：移除未使用的 pdfplumber 依赖
+- **PyPI 元数据**：添加项目 URLs（Homepage、Repository、Documentation、Issues）
+
 ## [0.2.0] - 2025-03-01
 
 ### 新增

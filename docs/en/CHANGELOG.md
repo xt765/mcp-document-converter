@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.1] - 2025-03-02
+
+### Security Fixes
+
+- **Dependency Security Updates**: Fixed 11 known CVE vulnerabilities
+  - MCP SDK: Updated to 1.23.0, fixing CVE-2025-66416, CVE-2025-53365, CVE-2025-53366
+  - PyPDF2 → pypdf: Migrated to pypdf 6.1.3, fixing CVE-2025-62708, CVE-2025-62707, CVE-2025-55197, CVE-2023-36464
+  - Jinja2: Updated to 3.1.5, fixing CVE-2024-56326, CVE-2024-56201, CVE-2024-22195
+  - Pydantic: Updated to 2.4.0, fixing CVE-2024-3772
+
+### Changed
+
+- **Dependency Cleanup**: Removed unused pdfplumber dependency
+- **PyPI Metadata**: Added project URLs (Homepage, Repository, Documentation, Issues)
+
 ## [0.2.0] - 2025-03-01
 
 ### Added

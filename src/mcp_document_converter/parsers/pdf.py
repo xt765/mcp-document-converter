@@ -6,7 +6,7 @@ import re
 from pathlib import Path
 from typing import Any, List, Union
 
-from PyPDF2 import PdfReader
+from pypdf import PdfReader
 
 from ..core.ir import DocumentIR, Node, NodeType
 from ..core.parser import BaseParser, ParseError
