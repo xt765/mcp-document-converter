@@ -1,3 +1,5 @@
+[![MseeP.ai Security Assessment Badge](https://mseep.net/pr/xt765-mcp-document-converter-badge.png)](https://mseep.ai/app/xt765-mcp-document-converter)
+
 <h1 align="center">MCP Document Converter</h1>
 
 <!-- mcp-name: io.github.xt765/mcp-document-converter -->
